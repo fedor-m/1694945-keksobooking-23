@@ -60,16 +60,14 @@ function createAnnouncement() {
       description: '',//описание
       photos: shuffle(PHOTOS),//фото
     },
-    methods: {
-      setAddress: function () {
-        return Object.values(this.location).join(',');
-      },
-      setTitle: function () {
-        return `${ACTIONS[getRandomIndex(ACTIONS)]} ${TITLES[TYPES.indexOf(this.offer.type)]} в центре Токио!`;
-      },
-      setDescription: function () {
-        return `Жильё ${STATUSES[getRandomIndex(STATUSES)]} с удобствами! ${ DESCRIPTIONS[getRandomIndex(DESCRIPTIONS)]}`;
-      },
+    setAddress: function () {
+      return Object.values(this.location).join(',');
+    },
+    setTitle: function () {
+      return `${ACTIONS[getRandomIndex(ACTIONS)]} ${TITLES[TYPES.indexOf(this.offer.type)]} в центре Токио!`;
+    },
+    setDescription: function () {
+      return `Жильё ${STATUSES[getRandomIndex(STATUSES)]} с удобствами! ${ DESCRIPTIONS[getRandomIndex(DESCRIPTIONS)]}`;
     },
   };
   announcement.offer.address = announcement.setAddress();
