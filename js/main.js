@@ -2,13 +2,16 @@
 const NUMBER = 10;
 const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 const ACTIONS = ['Продаётся', 'Сдаётся в аренду'];
-const TITLES = ['дворец', 'квартира', 'дом', 'бунгало', 'номер в гостинице'];
 const STATUSES = ['в отличном состоянии', 'в хорошем состоянии', 'в неплохом состоянии'];
 const DESCRIPTIONS=['Лучшая цена', 'Тихое место', 'Вид во двор', 'Вид на улицу'];
 const CHECKINS = ['12:00', '13:00', '14:00'];
 const CHECKOUTS = CHECKINS.slice();
 const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-const PHOTOS = ['https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg', 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg', 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'];
+const PHOTOS = [
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
+];
 const LATMIN = 35.65000;
 const LATMAX = 35.70000;
 const LNGMIN = 139.70000;
@@ -32,50 +35,41 @@ function getRandomIndex(array) {
   return getRandomNumber(0, array.length - 1);
 }
 function shuffle(array) {
-  const newArray = array.map((a) => ({ sort: Math.random(), value: a })).sort((a, b) => a.sort - b.sort).map((a) => a.value);
-  newArray.length = getRandomNumber(1, array.length);
-  return newArray;
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  array.length = getRandomNumber(1, array.length);
+  return array;
 }
-//Источник — https://stackoverflow.com/posts/46545530/revisions с небольшой правкой
+//Источник — https://learn.javascript.ru/task/shuffle с небольшой правкой
 
 /*Создание объекта*/
-function createAnnouncement() {
-  const announcement = {
+function createAnnouncement(index) {
+  return {
     author: {
-      avatar: `img/avatars/user0${getRandomNumber(1, 8)}.png`,
-    }, //автор и его аватар img/avatars/user{{xx}}.png
+      avatar: index < 9 ? `img/avatars/user0${index}.png` : `img/avatars/user${index}.png`,
+    },
     location: {
-      lat: getRandomFloat(LATMIN, LATMAX, 5), lng: getRandomFloat(LNGMIN, LNGMAX, 5),
+      lat: getRandomFloat(LATMIN, LATMAX, 5),
+      lng: getRandomFloat(LNGMIN, LNGMAX, 5),
     },//адрес
     offer: {
-      title: '', //заголовок,
-      address: '',//адрес
-      price: getRandomNumber(100000, 1000000), //стоимость
-      type: TYPES[getRandomIndex(TYPES)], //тип жилья
-      rooms: getRandomNumber(1, 4), //количество комнат
-      guests: getRandomNumber(1, 4), //количество гостей
-      checkIn: CHECKINS[getRandomIndex(CHECKINS)], //время заезда
-      checkOut: CHECKOUTS[getRandomIndex(CHECKOUTS)],//время отъезда
-      features: shuffle(FEATURES),//услуги и удобства
-      description: '',//описание
-      photos: shuffle(PHOTOS),//фото
-    },
-    setAddress: function () {
-      return Object.values(this.location).join(',');
-    },
-    setTitle: function () {
-      return `${ACTIONS[getRandomIndex(ACTIONS)]} ${TITLES[TYPES.indexOf(this.offer.type)]} в центре Токио!`;
-    },
-    setDescription: function () {
-      return `Жильё ${STATUSES[getRandomIndex(STATUSES)]} с удобствами! ${ DESCRIPTIONS[getRandomIndex(DESCRIPTIONS)]}`;
+      title: `${ACTIONS[getRandomIndex(ACTIONS)]} жильё в центре Токио!`,
+      address: `${getRandomFloat(LATMIN, LATMAX, 5)},${getRandomFloat(LNGMIN, LNGMAX, 5)}`,
+      price: getRandomNumber(100000, 1000000),
+      type: TYPES[getRandomIndex(TYPES)],
+      rooms: getRandomNumber(1, 4),
+      guests: getRandomNumber(1, 4),
+      checkIn: CHECKINS[getRandomIndex(CHECKINS)],
+      checkOut: CHECKOUTS[getRandomIndex(CHECKOUTS)],
+      features: shuffle(FEATURES),
+      description: `Жильё ${STATUSES[getRandomIndex(STATUSES)]} с удобствами! ${ DESCRIPTIONS[getRandomIndex(DESCRIPTIONS)]}`,//описание
+      photos: shuffle(PHOTOS),
     },
   };
-  announcement.offer.address = announcement.setAddress();
-  announcement.offer.title = announcement.setTitle();
-  announcement.offer.description = announcement.setDescription();
-  return announcement;
 }
-/*const announcements=new Array(NUMBER).fill(null).map(() => createAnnouncement());
-console.log(announcements);*/
-function generateAnnouncements() { return new Array(NUMBER).fill(null).map(() => createAnnouncement()); }
+function generateAnnouncements() {
+  return new Array(NUMBER).fill(null).map((_, i) => createAnnouncement(i+1));
+}
 generateAnnouncements();
