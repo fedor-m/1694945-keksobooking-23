@@ -1,15 +1,22 @@
-import {NUMBER, TYPES, ACTIONS, STATUSES, DESCRIPTIONS, CHECKINS, CHECKOUTS, FEATURES, PHOTOS, LATMIN, LATMAX, LNGMIN, LNGMAX} from './utils.js';
-import {getRandomNumber, getRandomFloat, getRandomIndex} from './utils.js';
-function shuffle(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  array.length = getRandomNumber(1, array.length);
-  return array;
-}
-//Источник — https://learn.javascript.ru/task/shuffle с небольшой правкой
-
+import {getRandomNumber, getRandomFloat, getRandomIndex, shuffle} from './utils.js';
+/*Константы*/
+const NUMBER = 10;
+const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
+const ACTIONS = ['Продаётся', 'Сдаётся в аренду'];
+const STATUSES = ['в отличном состоянии', 'в хорошем состоянии', 'в неплохом состоянии'];
+const DESCRIPTIONS=['Лучшая цена', 'Тихое место', 'Вид во двор', 'Вид на улицу'];
+const CHECKINS = ['12:00', '13:00', '14:00'];
+const CHECKOUTS = CHECKINS.slice();
+const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+const PHOTOS = [
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
+];
+const LATMIN = 35.65000;
+const LATMAX = 35.70000;
+const LNGMIN = 139.70000;
+const LNGMAX = 139.80000;
 /*Создание объекта*/
 function createAnnouncement(index) {
   return {
@@ -19,7 +26,7 @@ function createAnnouncement(index) {
     location: {
       lat: getRandomFloat(LATMIN, LATMAX, 5),
       lng: getRandomFloat(LNGMIN, LNGMAX, 5),
-    },//адрес
+    },
     offer: {
       title: `${ACTIONS[getRandomIndex(ACTIONS)]} жильё в центре Токио!`,
       address: `${getRandomFloat(LATMIN, LATMAX, 5)},${getRandomFloat(LNGMIN, LNGMAX, 5)}`,
@@ -30,7 +37,7 @@ function createAnnouncement(index) {
       checkIn: CHECKINS[getRandomIndex(CHECKINS)],
       checkOut: CHECKOUTS[getRandomIndex(CHECKOUTS)],
       features: shuffle(FEATURES),
-      description: `Жильё ${STATUSES[getRandomIndex(STATUSES)]} с удобствами! ${ DESCRIPTIONS[getRandomIndex(DESCRIPTIONS)]}`,//описание
+      description: `Жильё ${STATUSES[getRandomIndex(STATUSES)]} с удобствами! ${ DESCRIPTIONS[getRandomIndex(DESCRIPTIONS)]}`,
       photos: shuffle(PHOTOS),
     },
   };
