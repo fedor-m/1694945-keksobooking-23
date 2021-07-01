@@ -31,7 +31,8 @@ newCard.querySelector('.popup__description').textContent=demo.offer.description;
 newCard.querySelector('.popup__features').innerHTML='';
 demo.offer.features.forEach((feature)=>{
   const li=document.createElement('li');
-  li.classList.add(`popup__feature popup__feature--${feature}`);
+  li.classList.add('popup__feature');
+  li.classList.add(`popup__feature--${feature}`);
   newCard.querySelector('.popup__features').appendChild(li);
 });
 newCard.querySelector('.popup__photos').innerHTML='';
