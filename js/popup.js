@@ -3,11 +3,13 @@ const newAnnouncements = generateAnnouncements();
 const demo=newAnnouncements[0];
 const card=document.querySelector('#card').content;
 const newCard=card.cloneNode(true);
-newCard.querySelector('.popup__avatar').setAttribute('src',demo.author.avatar);
-newCard.querySelector('.popup__title').textContent=demo.offer.title;
-newCard.querySelector('.popup__text--address').textContent=demo.offer.address;
-newCard.querySelector('.popup__text--price').textContent=`${demo.offer.price} ₽ за ночь`;
-switch(demo.offer.type)
+const {avatar}=demo.author;
+const {title, address, price, type, rooms, guests, checkIn, checkOut, description, features, photos}=demo.offer;
+newCard.querySelector('.popup__avatar').setAttribute('src',avatar);
+newCard.querySelector('.popup__title').textContent=title;
+newCard.querySelector('.popup__text--address').textContent=address;
+newCard.querySelector('.popup__text--price').textContent=`${price} ₽ за ночь`;
+switch(type)
 {
   case 'palace':
     newCard.querySelector('.popup__type').textContent='Дворец';
@@ -25,18 +27,18 @@ switch(demo.offer.type)
     newCard.querySelector('.popup__type').textContent='Отель';
     break;
 }
-newCard.querySelector('.popup__text--capacity').textContent=`${demo.offer.rooms} комната(ы) для размещения ${demo.offer.guests} гостя(ей)`;
-newCard.querySelector('.popup__text--time').textContent=`Заезд после ${demo.offer.checkIn}, выезд до ${demo.offer.checkOut}`;
-newCard.querySelector('.popup__description').textContent=demo.offer.description;
+newCard.querySelector('.popup__text--capacity').textContent=`${rooms} комната(ы) для размещения ${guests} гостя(ей)`;
+newCard.querySelector('.popup__text--time').textContent=`Заезд после ${checkIn}, выезд до ${checkOut}`;
+newCard.querySelector('.popup__description').textContent=description;
 newCard.querySelector('.popup__features').innerHTML='';
-demo.offer.features.forEach((feature)=>{
+features.forEach((feature)=>{
   const li=document.createElement('li');
   li.classList.add('popup__feature');
   li.classList.add(`popup__feature--${feature}`);
   newCard.querySelector('.popup__features').appendChild(li);
 });
 newCard.querySelector('.popup__photos').innerHTML='';
-demo.offer.photos.forEach((photo)=> {
+photos.forEach((photo)=> {
   const img=document.createElement('img');
   img.setAttribute('src',photo);
   img.classList.add('popup__photo');
