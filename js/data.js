@@ -1,4 +1,4 @@
-import {getRandomNumber, getRandomFloat, getRandomIndex, shuffle} from './utils.js';
+import { getRandomNumber, getRandomFloat, getRandomIndex, shuffle } from './utils.js';
 /*Константы*/
 const NUMBER = 10;
 const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
@@ -45,4 +45,4 @@ function createAnnouncement(index) {
 function generateAnnouncements() {
   return new Array(NUMBER).fill(null).map((_, i) => createAnnouncement(i+1));
 }
-export {generateAnnouncements};
+export { generateAnnouncements };
