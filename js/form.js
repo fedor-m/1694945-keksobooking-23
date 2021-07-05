@@ -17,4 +17,17 @@ function toggleFormFields(isBlocked) {
     input.disabled = isBlocked;
   });
 }
+
+adForm.querySelector('#type').addEventListener('change', function () {
+  const typeToMinPrice={
+    'bungalow': 0,
+    'flat': 1000,
+    'hotel': 3000,
+    'house': 5000,
+    'palace': 10000
+  };
+  adForm.querySelector('#price').setAttribute('min',typeToMinPrice[this.value]);
+  adForm.querySelector('#price').setAttribute('placeholder',typeToMinPrice[this.value]);
+});
+
 export { toggleFormFields };
