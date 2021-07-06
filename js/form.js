@@ -56,9 +56,10 @@ adForm.querySelector('#room_number').addEventListener('change', function () {
     3: ['0'],
     100: ['1', '2', '3'],
   };
-  adForm.querySelector('#capacity').value = roomsToCapacity[this.value];
-  const options = adForm.querySelector('#capacity').querySelectorAll('option');
+  const capacity=adForm.querySelector('#capacity');
+  const options = capacity.querySelectorAll('option');
   const optionsToDisable = valuesToDisable[this.value];
+  capacity.value = roomsToCapacity[this.value];
   for (let i = 0; i < options.length; i++) {
     options[i].disabled = false;
     for (let j = 0; j < optionsToDisable.length; j++) {
