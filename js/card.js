@@ -1,6 +1,6 @@
 const card=document.querySelector('#card').content;
 const cardTemplate=card.cloneNode(true);
-const typeToName = {
+const TYPE_TO_NAME = {
   'palace': 'Дворец',
   'flat': 'Квартира',
   'house': 'Дом',
@@ -12,7 +12,7 @@ function generateCardTemplate(cardData){
   cardTemplate.querySelector('.popup__title').textContent = cardData.offer.title;
   cardTemplate.querySelector('.popup__text--address').textContent = cardData.offer.address;
   cardTemplate.querySelector('.popup__text--price').textContent = `${cardData.offer.price} ₽ за ночь`;
-  cardTemplate.querySelector('.popup__type').textContent=typeToName[cardData.offer.type];
+  cardTemplate.querySelector('.popup__type').textContent=TYPE_TO_NAME[cardData.offer.type];
   cardTemplate.querySelector('.popup__text--capacity').textContent =` ${cardData.offer.rooms} комната(ы) для размещения ${cardData.offer.guests} гостя(ей)`;
   cardTemplate.querySelector('.popup__text--time').textContent = `Заезд после ${cardData.offer.checkIn}, выезд до ${cardData.offer.checkOut}`;
   cardTemplate.querySelector('.popup__description').textContent = cardData.offer.description;
