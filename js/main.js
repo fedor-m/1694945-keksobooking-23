@@ -1,8 +1,11 @@
 import { generateAnnouncements } from './data.js';
-import { generateCardTemplate } from './card.js';
-import { toggleFormFields } from './form.js';
+//import { generateCardTemplate } from './card.js';
+//import { toggleFormFields } from './form.js';
+import { initializeMap } from './map.js';
+const map=initializeMap();
 const newAnnouncements = generateAnnouncements();
-const cardData=newAnnouncements[0];
+
+/*const cardData=newAnnouncements[0];
 const map=document.querySelector('#map-canvas');
 const isMapBlocked=map.children.length===0;
 function renderCard(card){
@@ -11,4 +14,4 @@ function renderCard(card){
   mapCanvas.appendChild(announcement);
 }
 renderCard(cardData);
-toggleFormFields(isMapBlocked);
+toggleFormFields(isMapBlocked);*/
