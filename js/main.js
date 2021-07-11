@@ -1,17 +1,6 @@
 import { generateAnnouncements } from './data.js';
-//import { generateCardTemplate } from './card.js';
-//import { toggleFormFields } from './form.js';
-import { initializeMap } from './map.js';
-const map=initializeMap();
+import { createMarker } from './map.js';
 const newAnnouncements = generateAnnouncements();
-
-/*const cardData=newAnnouncements[0];
-const map=document.querySelector('#map-canvas');
-const isMapBlocked=map.children.length===0;
-function renderCard(card){
-  const announcement=generateCardTemplate(card);
-  const mapCanvas=document.querySelector('#map-canvas');
-  mapCanvas.appendChild(announcement);
-}
-renderCard(cardData);
-toggleFormFields(isMapBlocked);*/
+newAnnouncements.forEach((announcement) => {
+  createMarker(announcement);
+});
