@@ -1,3 +1,4 @@
+import { MAP, CENTER, MAIN_MARKER, MIN_ZOOM } from './map.js';
 const mapFilters = document.querySelector('.map__filters');
 const mapSelects = mapFilters.querySelectorAll('select');
 const mapCheckboxes = mapFilters.querySelectorAll('input');
@@ -30,6 +31,14 @@ const roomNumber = adForm.querySelector('#room_number');
 const capacity = adForm.querySelector('#capacity');
 const checkIn = adForm.querySelector('#timein');
 const checkOut = adForm.querySelector('#timeout');
+const reset = adForm.querySelector('.ad-form__reset');
+
+function initializeCapacity() {
+  capacity.value = 1;
+  capacity.querySelectorAll('option').forEach((o) => {
+    o.value !== '1' ? ((o.disabled = true), o.removeAttribute('selected')) : '';
+  });
+}
 
 function toggleFormFields(isBlocked) {
   if (isBlocked) {
@@ -38,10 +47,7 @@ function toggleFormFields(isBlocked) {
   } else {
     mapFilters.classList.remove('map-filters--disabled');
     adForm.classList.remove('ad-form--disabled');
-    capacity.value = 1;
-    capacity.querySelectorAll('option').forEach((o) => {
-      o.value !== '1' ? (o.disabled = true) : '';
-    });
+    initializeCapacity();
   }
   inputs.forEach((input) => {
     input.disabled = isBlocked;
@@ -61,6 +67,7 @@ function onSetCapacity() {
   capacity.value = ROOMS_TO_CAPACITY[this.value];
   for (let i = 0; i < options.length; i++) {
     options[i].disabled = false;
+    options[i].removeAttribute('selected');
     for (let j = 0; j < optionsToDisable.length; j++) {
       if (options[i].value === optionsToDisable[j]) {
         options[i].disabled = true;
@@ -77,6 +84,12 @@ function onSetTime(e) {
 }
 checkIn.addEventListener('change', onSetTime);
 checkOut.addEventListener('change', onSetTime);
-/*adForm.addEventListener('submit', function(){}) */
 
+function restorePosition() {
+  initializeCapacity();
+  MAP.setView(CENTER, MIN_ZOOM);
+  MAIN_MARKER.setLatLng(CENTER);
+}
+reset.addEventListener('click', restorePosition);
+/*adForm.addEventListener('submit', function(){}) */
 export { toggleFormFields };
