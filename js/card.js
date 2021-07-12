@@ -1,5 +1,3 @@
-const card=document.querySelector('#card').content;
-const cardTemplate=card.cloneNode(true);
 const TYPE_TO_NAME = {
   'palace': 'Дворец',
   'flat': 'Квартира',
@@ -8,6 +6,8 @@ const TYPE_TO_NAME = {
   'hotel': 'Отель',
 };
 function generateCardTemplate(cardData){
+  const card=document.querySelector('#card').content;
+  const cardTemplate=card.cloneNode(true);
   cardTemplate.querySelector('.popup__avatar').setAttribute('src',cardData.author.avatar);
   cardTemplate.querySelector('.popup__title').textContent = cardData.offer.title;
   cardTemplate.querySelector('.popup__text--address').textContent = cardData.offer.address;
