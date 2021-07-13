@@ -1,5 +1,4 @@
 import { MAP, CENTER, MAIN_MARKER, MIN_ZOOM } from './map.js';
-const body = document.body;
 const mapFilters = document.querySelector('.map__filters');
 const mapSelects = mapFilters.querySelectorAll('select');
 const mapCheckboxes = mapFilters.querySelectorAll('input');
@@ -112,6 +111,7 @@ function pressButton(e) {
 
 function submitForm(e) {
   e.preventDefault();
+  const body = document.body;
   const templateSuccess = document.querySelector('#success').content;
   const templateError = document.querySelector('#error').content;
   const formData = new FormData(adForm);
