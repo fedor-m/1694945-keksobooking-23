@@ -1,6 +1,17 @@
-import { generateAnnouncements } from './data.js';
+import { loadAnnouncements } from './server.js';
 import { createMarker } from './map.js';
-const newAnnouncements = generateAnnouncements();
-newAnnouncements.forEach((announcement) => {
-  createMarker(announcement);
-});
+loadAnnouncements()
+  .then((result) => {
+    result.forEach((announcement) => {
+      createMarker(announcement);
+    });
+  })
+  .catch((err) => {
+    const divError = document.createElement('div');
+    const message = document.createElement('p');
+    divError.classList.add('error');
+    message.classList.add('error__message');
+    message.textContent = err;
+    divError.appendChild(message);
+    document.body.appendChild(divError);
+  });
