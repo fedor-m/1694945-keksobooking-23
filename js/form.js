@@ -95,8 +95,8 @@ reset.addEventListener('click', restorePosition);
 
 function closePopup() {
   const popups = [
-    document.querySelector('.success'),
-    document.querySelector('.error'),
+    document.querySelector('div.success'),
+    document.querySelector('div.error'),
   ];
   popups.forEach((popup) => {
     popup !== null ? popup.remove() : '';
