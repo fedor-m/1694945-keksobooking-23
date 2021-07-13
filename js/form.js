@@ -1,4 +1,5 @@
 import { MAP, CENTER, MAIN_MARKER, MIN_ZOOM } from './map.js';
+const body = document.body;
 const mapFilters = document.querySelector('.map__filters');
 const mapSelects = mapFilters.querySelectorAll('select');
 const mapCheckboxes = mapFilters.querySelectorAll('input');
@@ -86,21 +87,51 @@ checkIn.addEventListener('change', onSetTime);
 checkOut.addEventListener('change', onSetTime);
 
 function restorePosition() {
+  adForm.reset();
   initializeCapacity();
   MAP.setView(CENTER, MIN_ZOOM);
   MAIN_MARKER.setLatLng(CENTER);
 }
 reset.addEventListener('click', restorePosition);
 
-adForm.addEventListener('submit', (e)=> {
-  e.preventDefault();
-  restorePosition();
-  /*const formData=new FormData();*/
-  /*
-  if(true) show success
-  else show error
-  */
+function closePopup() {
+  const popups = [
+    document.querySelector('.success'),
+    document.querySelector('.error'),
+  ];
+  popups.forEach((popup) => {
+    popup !== null ? popup.remove() : '';
+  });
+  document.removeEventListener('click', closePopup);
+  document.removeEventListener('keyPress', closePopup);
+}
 
-});
+function pressButton(e) {
+  e.key === 'Escape' ? closePopup() : '';
+}
+
+function submitForm(e) {
+  e.preventDefault();
+  const templateSuccess = document.querySelector('#success').content;
+  const templateError = document.querySelector('#error').content;
+  const formData = new FormData(adForm);
+  fetch(adForm.getAttribute('action'), {
+    method: 'POST',
+    body: formData,
+  })
+    .finally(() => {
+      document.addEventListener('click', closePopup);
+      document.addEventListener('keyup', pressButton);
+    })
+    .then(() => {
+      restorePosition();
+      body.appendChild(templateSuccess);
+    })
+    .catch(() => {
+      body.appendChild(templateError);
+    });
+}
+
+adForm.addEventListener('submit', submitForm);
 
 export { toggleFormFields };
