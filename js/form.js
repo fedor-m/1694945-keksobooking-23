@@ -91,5 +91,16 @@ function restorePosition() {
   MAIN_MARKER.setLatLng(CENTER);
 }
 reset.addEventListener('click', restorePosition);
-/*adForm.addEventListener('submit', function(){}) */
+
+adForm.addEventListener('submit', (e)=> {
+  e.preventDefault();
+  restorePosition();
+  /*const formData=new FormData();*/
+  /*
+  if(true) show success
+  else show error
+  */
+
+});
+
 export { toggleFormFields };
