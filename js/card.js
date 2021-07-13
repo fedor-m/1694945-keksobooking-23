@@ -10,7 +10,6 @@ function generateCardTemplate(cardData) {
   const cardTemplate = card.cloneNode(true);
   const photos = cardData.offer.photos;
   const features = cardData.offer.features;
-  //console.log(cardData);
   cardTemplate
     .querySelector('.popup__avatar')
     .setAttribute('src', cardData.author.avatar);
