@@ -1,17 +1,24 @@
 import { loadAnnouncements } from './server.js';
 import { createMarker } from './map.js';
-loadAnnouncements()
-  .then((result) => {
-    result.forEach((announcement) => {
+import { onUploadFinal } from './form.js';
+
+function onLoadSuccess(result) {
+  result.then((announcements) =>
+    announcements.forEach((announcement) => {
       createMarker(announcement);
-    });
-  })
-  .catch((err) => {
-    const divError = document.createElement('div');
-    const message = document.createElement('p');
-    divError.classList.add('error');
-    message.classList.add('error__message');
-    message.textContent = err;
-    divError.appendChild(message);
-    document.body.appendChild(divError);
-  });
+    }),
+  );
+}
+
+function onLoadError() {
+  const divError = document.createElement('div');
+  const message = document.createElement('p');
+  divError.classList.add('error');
+  message.classList.add('error__message');
+  message.textContent = 'Ошибка загрузки данных с сервера!';
+  divError.appendChild(message);
+  document.body.appendChild(divError);
+  onUploadFinal();
+}
+
+loadAnnouncements(onLoadSuccess, onLoadError);
