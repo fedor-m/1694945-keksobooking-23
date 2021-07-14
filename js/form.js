@@ -117,6 +117,9 @@ function submitForm(e) {
   const formData = new FormData(adForm);
   fetch(adForm.getAttribute('action'), {
     method: 'POST',
+    headers: {
+      'Content-Type': adForm.getAttribute('enctype'),
+    },
     body: formData,
   })
     .finally(() => {
