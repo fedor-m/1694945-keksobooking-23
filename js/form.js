@@ -1,12 +1,12 @@
 import { MAP, CENTER, MAIN_MARKER, MIN_ZOOM } from './map.js';
+import { sendAnnouncement } from './server.js';
+const body = document.body;
 const mapFilters = document.querySelector('.map__filters');
 const mapSelects = mapFilters.querySelectorAll('select');
 const mapCheckboxes = mapFilters.querySelectorAll('input');
 const adForm = document.querySelector('.ad-form');
 const adFieldsets = adForm.querySelectorAll('fieldset');
-const inputs = Array.from(mapSelects)
-  .concat(Array.from(mapCheckboxes))
-  .concat(Array.from(adFieldsets));
+const inputs = Array.from(mapSelects).concat(Array.from(mapCheckboxes)).concat(Array.from(adFieldsets));
 const TYPE_TO_MIN_PRICE = {
   bungalow: 0,
   flat: 1000,
@@ -85,56 +85,57 @@ function onSetTime(e) {
 checkIn.addEventListener('change', onSetTime);
 checkOut.addEventListener('change', onSetTime);
 
-function restorePosition() {
+function resetForm() {
   adForm.reset();
   initializeCapacity();
   MAP.setView(CENTER, MIN_ZOOM);
   MAIN_MARKER.setLatLng(CENTER);
 }
-reset.addEventListener('click', restorePosition);
+reset.addEventListener('click', resetForm);
 
 function closePopup() {
-  const popups = [
-    document.querySelector('div.success'),
-    document.querySelector('div.error'),
-  ];
-  popups.forEach((popup) => {
-    popup !== null ? popup.remove() : '';
-  });
+  const divSuccess = document.querySelector('div.success');
+  const divError = document.querySelector('div.error');
+  if(divSuccess)
+  {
+    divSuccess.remove();
+  }
+  else if(divError)
+  {
+    divError.remove();
+  }
   document.removeEventListener('click', closePopup);
-  document.removeEventListener('keyPress', closePopup);
+  document.removeEventListener('keyup', closePopup);
 }
 
 function pressButton(e) {
   e.key === 'Escape' ? closePopup() : '';
 }
 
+function onUploadSuccess()
+{
+  const templateSuccess = document.querySelector('#success').content;
+  resetForm();
+  body.appendChild(templateSuccess);
+}
+
+function onUploadError(){
+  const templateError = document.querySelector('#error').content;
+  body.appendChild(templateError);
+}
+
+function onUploadFinal(){
+  document.addEventListener('click', closePopup);
+  document.addEventListener('keyup', pressButton);
+}
+
 function submitForm(e) {
   e.preventDefault();
-  const body = document.body;
-  const templateSuccess = document.querySelector('#success').content;
-  const templateError = document.querySelector('#error').content;
   const formData = new FormData(adForm);
-  fetch(adForm.getAttribute('action'), {
-    method: 'POST',
-    headers: {
-      'Content-Type': adForm.getAttribute('enctype'),
-    },
-    body: formData,
-  })
-    .finally(() => {
-      document.addEventListener('click', closePopup);
-      document.addEventListener('keyup', pressButton);
-    })
-    .then(() => {
-      restorePosition();
-      body.appendChild(templateSuccess);
-    })
-    .catch(() => {
-      body.appendChild(templateError);
-    });
+  sendAnnouncement(onUploadSuccess, onUploadError, onUploadFinal, formData);
 }
 
 adForm.addEventListener('submit', submitForm);
 
-export { toggleFormFields };
+
+export { toggleFormFields, onUploadFinal };
