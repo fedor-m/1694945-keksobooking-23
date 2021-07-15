@@ -1,5 +1,6 @@
-import { MAP, CENTER, MAIN_MARKER, MIN_ZOOM } from './map.js';
+import { map, CENTER, mainMarker, MIN_ZOOM } from './map.js';
 import { sendAnnouncement } from './server.js';
+
 const body = document.body;
 const mapFilters = document.querySelector('.map__filters');
 const mapSelects = mapFilters.querySelectorAll('select');
@@ -7,20 +8,20 @@ const mapCheckboxes = mapFilters.querySelectorAll('input');
 const adForm = document.querySelector('.ad-form');
 const adFieldsets = adForm.querySelectorAll('fieldset');
 const inputs = Array.from(mapSelects).concat(Array.from(mapCheckboxes)).concat(Array.from(adFieldsets));
-const TYPE_TO_MIN_PRICE = {
+const typeToMinPrice = {
   bungalow: 0,
   flat: 1000,
   hotel: 3000,
   house: 5000,
   palace: 10000,
 };
-const ROOMS_TO_CAPACITY = {
+const roomsToCapacity = {
   1: '1',
   2: '2',
   3: '3',
   100: '0',
 };
-const VALUES_TO_DISABLE = {
+const valuesToDisable = {
   1: ['2', '3', '0'],
   2: ['3', '0'],
   3: ['0'],
@@ -56,15 +57,15 @@ function toggleFormFields(isBlocked) {
 
 function onChangeType() {
   const price = adForm.querySelector('#price');
-  price.setAttribute('min', TYPE_TO_MIN_PRICE[this.value]);
-  price.setAttribute('placeholder', TYPE_TO_MIN_PRICE[this.value]);
+  price.setAttribute('min', typeToMinPrice[this.value]);
+  price.setAttribute('placeholder', typeToMinPrice[this.value]);
 }
 type.addEventListener('change', onChangeType);
 
 function onSetCapacity() {
   const options = capacity.querySelectorAll('option');
-  const optionsToDisable = VALUES_TO_DISABLE[this.value];
-  capacity.value = ROOMS_TO_CAPACITY[this.value];
+  const optionsToDisable = valuesToDisable[this.value];
+  capacity.value = roomsToCapacity[this.value];
   for (let i = 0; i < options.length; i++) {
     options[i].disabled = false;
     options[i].removeAttribute('selected');
@@ -88,8 +89,8 @@ checkOut.addEventListener('change', onSetTime);
 function resetForm() {
   adForm.reset();
   initializeCapacity();
-  MAP.setView(CENTER, MIN_ZOOM);
-  MAIN_MARKER.setLatLng(CENTER);
+  map.setView(CENTER, MIN_ZOOM);
+  mainMarker.setLatLng(CENTER);
 }
 reset.addEventListener('click', resetForm);
 
