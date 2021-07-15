@@ -40,6 +40,7 @@ function initializeMap(map) {
 }
 const markerGroup = L.layerGroup().addTo(MAP);
 function createMarker(point) {
+  //console.log(point);
   const { lat, lng } = point.location;
 
   const icon = L.icon({
@@ -57,10 +58,8 @@ function createMarker(point) {
       icon,
     },
   );
-  marker.on('click', () => {
-    marker.bindPopup(generateCardTemplate(point), {
-      keepInView: true,
-    });
+  marker.bindPopup(generateCardTemplate(point), {
+    keepInView: true,
   });
   marker.addTo(markerGroup);
 }
