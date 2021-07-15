@@ -1,4 +1,4 @@
-const TYPE_TO_NAME = {
+const typeToName = {
   palace: 'Дворец',
   flat: 'Квартира',
   house: 'Дом',
@@ -24,7 +24,7 @@ function generateCardTemplate(cardData) {
   title.textContent = cardData.offer.title;
   address.textContent = cardData.offer.address;
   price.textContent = `${cardData.offer.price} ₽ за ночь`;
-  type.textContent = TYPE_TO_NAME[cardData.offer.type];
+  type.textContent = typeToName[cardData.offer.type];
   capacity.textContent = ` ${cardData.offer.rooms} комната(ы) для размещения ${cardData.offer.guests} гостя(ей)`;
   time.textContent = `Заезд после ${cardData.offer.checkin}, выезд до ${cardData.offer.checkout}`;
   description.textContent = cardData.offer.description;
