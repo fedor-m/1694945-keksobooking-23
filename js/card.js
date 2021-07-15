@@ -5,6 +5,17 @@ const typeToName = {
   bungalow: 'Бунгало',
   hotel: 'Отель',
 };
+
+function createPhoto(photo) {
+  const img = document.createElement('img');
+  img.setAttribute('src', photo);
+  img.classList.add('popup__photo');
+  img.setAttribute('width', 45);
+  img.setAttribute('height', 40);
+  img.setAttribute('alt', 'Фотография жилья');
+  return img;
+}
+
 function generateCardTemplate(cardData) {
   const card = document.querySelector('#card').content;
   const cardTemplate = card.cloneNode(true);
@@ -40,15 +51,11 @@ function generateCardTemplate(cardData) {
   photos.innerHTML = '';
   if (dataPhotos) {
     dataPhotos.forEach((photo) => {
-      const img = document.createElement('img');
-      img.setAttribute('src', photo);
-      img.classList.add('popup__photo');
-      img.setAttribute('width', 45);
-      img.setAttribute('height', 40);
-      img.setAttribute('alt', 'Фотография жилья');
-      cardTemplate.querySelector('.popup__photos').appendChild(img);
+      const image=createPhoto(photo);
+      cardTemplate.querySelector('.popup__photos').appendChild(image);
     });
   }
   return cardTemplate;
 }
+
 export { generateCardTemplate };
