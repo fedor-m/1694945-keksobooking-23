@@ -1,54 +1,49 @@
 import { toggleFormFields } from './form.js';
 import { generateCardTemplate } from './card.js';
 
-const MAP = L.map('map-canvas');
+const map = L.map('map-canvas');
 const CENTER = [35.6895, 139.692];
 const MIN_ZOOM = 10;
 const MAX_ZOOM = 22;
-/*const northEast = [35.799747, 139.879467];
-const southWest = [35.795068, 139.748757];*/
-const MAIN_MARKER = L.marker();
-MAIN_MARKER.setLatLng(CENTER);
-MAIN_MARKER.options.draggable = true;
-const MAIN_ICON = L.icon({
+const mainMarker = L.marker();
+const mainIcon = L.icon({
   iconUrl: 'img/main-pin.svg',
   iconSize: [52, 52],
   iconAnchor: [26, 52],
 });
-MAIN_MARKER.on('moveend', (evt) => {
-  const coordinates = evt.target.getLatLng();
+const markerGroup = L.layerGroup().addTo(map);
+mainMarker.setLatLng(CENTER);
+mainMarker.options.draggable = true;
+mainMarker.on('moveend', (e) => {
+  const coordinates = e.target.getLatLng();
   const lat = coordinates.lat;
   const lng = coordinates.lng;
   document.querySelector('#address').value = `${lat}, ${lng}`;
 });
-MAIN_MARKER.setIcon(MAIN_ICON).addTo(MAP);
+mainMarker.setIcon(mainIcon).addTo(map);
 
-function initializeMap(map) {
-  map.on('load', () => {
+function initializeMap(createdMap) {
+  createdMap.on('load', () => {
     toggleFormFields(false);
   });
-  map.CENTER = CENTER;
-  map.setZoom(MIN_ZOOM);
-  map.setMaxZoom(MAX_ZOOM);
-  map.setView(map.CENTER, map.zoom);
-  /*map.setMaxBounds([northEast, southWest]);*/
+  createdMap.setCenter = CENTER;
+  createdMap.setZoom(MIN_ZOOM);
+  createdMap.setMaxZoom(MAX_ZOOM);
+  createdMap.setView(CENTER, MIN_ZOOM);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution:
       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  }).addTo(map);
-  return map;
+  }).addTo(createdMap);
+  return createdMap;
 }
-const markerGroup = L.layerGroup().addTo(MAP);
-function createMarker(point) {
-  //console.log(point);
-  const { lat, lng } = point.location;
 
+function createMarker(point) {
+  const { lat, lng } = point.location;
   const icon = L.icon({
     iconUrl: 'img/pin.svg',
     iconSize: [40, 40],
     iconAnchor: [20, 40],
   });
-
   const marker = L.marker(
     {
       lat,
@@ -64,5 +59,5 @@ function createMarker(point) {
   marker.addTo(markerGroup);
 }
 
-initializeMap(MAP);
-export { MAP, CENTER, MAIN_MARKER, MIN_ZOOM, createMarker };
+initializeMap(map);
+export { map, CENTER, mainMarker, MIN_ZOOM, createMarker };
