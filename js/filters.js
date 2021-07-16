@@ -1,10 +1,10 @@
 const DEFAULT = 'any';
 const filtersForm=document.querySelector('.map__filters');
-const housingType=filtersForm.querySelector('#housing-type');
+/*const housingType=filtersForm.querySelector('#housing-type');
 const housingPrice=filtersForm.querySelector('#housing-price');
 const housingRooms=filtersForm.querySelector('#housing-rooms');
 const housingGuests=filtersForm.querySelector('#housing-guests');
-const housingFeatures=filtersForm.querySelector('#housing-features');
+const housingFeatures=filtersForm.querySelector('#housing-features');*/
 /*
   Нужно ли создавать большой объект?
   const filters = {
@@ -54,9 +54,9 @@ function onFiltersFormChange(){
   //return housingType.value
 }
 
-function getFiltersData(announcements){
+/*function getFiltersData(announcements){
   //announcements.filter((announcement)=>{})
-}
+}*/
 
 function initFilters(){
   filtersForm.addEventListener('change',onFiltersFormChange);
