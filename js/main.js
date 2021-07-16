@@ -5,6 +5,7 @@ import { onUploadFinal } from './form.js';
 function onLoadSuccess(result) {
   const ANNOUNCEMENTS_COUNT = 10;
   result.then((announcements) =>
+    //announcements.filter()
     announcements.slice(0, ANNOUNCEMENTS_COUNT).forEach((announcement) => {
       createMarker(announcement);
     }),
