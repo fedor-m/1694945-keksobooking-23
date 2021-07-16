@@ -9,9 +9,9 @@ const housingFeatures=filtersForm.querySelector('#housing-features');
   Нужно ли создавать большой объект?
   const filters = {
     type: '',
-    price: '',
-    rooms: '',
-    guests: '',
+    price: 0,
+    rooms: 0,
+    guests: 0,
     features: {
       wifi: '',
       dishwasher: '',
