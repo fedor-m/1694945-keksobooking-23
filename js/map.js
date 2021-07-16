@@ -1,5 +1,6 @@
 import { toggleFormFields } from './form.js';
 import { generateCardTemplate } from './card.js';
+import { initFilters } from './filters.js';
 
 const map = L.map('map-canvas');
 const CENTER = [35.6895, 139.692];
@@ -60,4 +61,7 @@ function createMarker(point) {
 }
 
 initializeMap(map);
+
+initFilters();
+
 export { map, CENTER, mainMarker, MIN_ZOOM, createMarker };
