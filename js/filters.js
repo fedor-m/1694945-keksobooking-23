@@ -1,10 +1,10 @@
 const DEFAULT = 'any';
-const filtersForm=document.querySelector('.map__filters');
-/*const housingType=filtersForm.querySelector('#housing-type');
-const housingPrice=filtersForm.querySelector('#housing-price');
-const housingRooms=filtersForm.querySelector('#housing-rooms');
-const housingGuests=filtersForm.querySelector('#housing-guests');
-const housingFeatures=filtersForm.querySelector('#housing-features');*/
+const filtersForm = document.querySelector('.map__filters');
+const housingType = filtersForm.querySelector('#housing-type');
+const housingPrice = filtersForm.querySelector('#housing-price');
+const housingRooms = filtersForm.querySelector('#housing-rooms');
+const housingGuests = filtersForm.querySelector('#housing-guests');
+//const housingFeatures=filtersForm.querySelector('#housing-features');
 /*
   Нужно ли создавать большой объект?
   const filters = {
@@ -22,44 +22,48 @@ const housingFeatures=filtersForm.querySelector('#housing-features');*/
     }
   }
 */
-function getHousingType(cardData){
-  return !cardData.offer.type ? DEFAULT : cardData.offer.type;
+function getHousingType(cardData) {
+  return cardData.offer.type === DEFAULT ? true : (cardData.offer.type === housingType.value);
 }
 
-function getHousingPrice(cardData){
-  return !cardData.offer.price ? DEFAULT : cardData.offer.price;
+function getHousingPrice(cardData) {
+  const priceLimit = {
+    any: cardData.offer.type,
+    middle: cardData.offer.price >= 10000 && cardData.offer.price <= 50000,
+    low: cardData.offer.price < 10000,
+    high: cardData.offer.price >= 50000,
+  };
+  return priceLimit[housingPrice.value];
 }
 
-function getHousingRooms(cardData)
-{
-  return !cardData.offer.rooms ? DEFAULT : cardData.offer.price;
+function getHousingRooms(cardData) {
+  return cardData.offer.rooms === DEFAULT ? true : (cardData.offer.rooms.toString() === housingRooms.value);
 }
 
-function getHousingGuests(cardData)
-{
-  return !cardData.offer.guests ? DEFAULT : cardData.offer.price;
+function getHousingGuests(cardData) {
+  return cardData.offer.guests === DEFAULT ? true : (cardData.offer.guests.toString() === housingGuests.value);
 }
 
-function getHousingFeatures(e)
-{
-  return (e.target.value);
-}
+/*function getHousingFeatures(cardData) {
+  const checked = housingFeatures.querySelectorAll('input:checked');
+  return checked.length === 0 ? true : '';
+}*/
 
-function onFiltersFormChange(){
+function onFiltersFormChange() {
   getHousingType();
   getHousingPrice();
   getHousingRooms();
   getHousingGuests();
-  getHousingFeatures();
+  //getHousingFeatures();
   //return housingType.value
 }
 
-/*function getFiltersData(announcements){
-  //announcements.filter((announcement)=>{})
-}*/
-
-function initFilters(){
-  filtersForm.addEventListener('change',onFiltersFormChange);
+function getFiltersData(announcements){
+  announcements.filter(onFiltersFormChange);
 }
 
-export { initFilters };
+function initFilters() {
+  filtersForm.addEventListener('change', onFiltersFormChange);
+}
+
+export { initFilters,  getFiltersData};
