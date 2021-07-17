@@ -6,7 +6,7 @@ const housingType = filtersForm.querySelector('#housing-type');
 const housingPrice = filtersForm.querySelector('#housing-price');
 const housingRooms = filtersForm.querySelector('#housing-rooms');
 const housingGuests = filtersForm.querySelector('#housing-guests');
-const housingFeatures=filtersForm.querySelector('#housing-features');
+const housingFeatures = filtersForm.querySelector('#housing-features');
 /*
   Нужно ли создавать большой объект?
   const filters = {
@@ -75,11 +75,13 @@ function initFilters() {
   filtersForm.addEventListener('change', onFiltersFormChange);
 }
 
-function resetFilters(){
-  filtersForm.querySelectorAll('select').forEach((select) => {
+function resetFilters() {
+  const selectFilters = filtersForm.querySelectorAll('select');
+  const featuresFilters = housingFeatures.querySelectorAll('input');
+  selectFilters.forEach((select) => {
     select.value = 'any';
   });
-  housingFeatures.forEach((input) => {
+  featuresFilters.forEach((input) => {
     input.checked = false;
   });
 }
