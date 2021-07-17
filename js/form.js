@@ -1,14 +1,9 @@
-import { map, CENTER, mainMarker, MIN_ZOOM } from './map.js';
+import { map, CENTER, mainMarker, MIN_ZOOM, initializeCapacity } from './map.js';
 import { sendAnnouncement } from './server.js';
 import { resetFilters } from './filters.js';
 
 const body = document.body;
-const mapFilters = document.querySelector('.map__filters');
-const mapSelects = mapFilters.querySelectorAll('select');
-const mapCheckboxes = mapFilters.querySelectorAll('input');
-const adForm = document.querySelector('.ad-form');
-const adFieldsets = adForm.querySelectorAll('fieldset');
-const inputs = Array.from(mapSelects).concat(Array.from(mapCheckboxes)).concat(Array.from(adFieldsets));
+
 const typeToMinPrice = {
   bungalow: 0,
   flat: 1000,
@@ -28,33 +23,14 @@ const valuesToDisable = {
   3: ['0'],
   100: ['1', '2', '3'],
 };
+const adForm = document.querySelector('.ad-form');
 const type = adForm.querySelector('#type');
 const roomNumber = adForm.querySelector('#room_number');
-const capacity = adForm.querySelector('#capacity');
+
 const checkIn = adForm.querySelector('#timein');
 const checkOut = adForm.querySelector('#timeout');
 const reset = adForm.querySelector('.ad-form__reset');
 
-function initializeCapacity() {
-  capacity.value = 1;
-  capacity.querySelectorAll('option').forEach((o) => {
-    o.value !== '1' ? ((o.disabled = true), o.removeAttribute('selected')) : '';
-  });
-}
-
-function toggleFormFields(isBlocked) {
-  if (isBlocked) {
-    mapFilters.classList.add('map-filters--disabled');
-    adForm.classList.add('ad-form--disabled');
-  } else {
-    mapFilters.classList.remove('map-filters--disabled');
-    adForm.classList.remove('ad-form--disabled');
-    initializeCapacity();
-  }
-  inputs.forEach((input) => {
-    input.disabled = isBlocked;
-  });
-}
 
 function onChangeType() {
   const price = adForm.querySelector('#price');
@@ -64,6 +40,7 @@ function onChangeType() {
 type.addEventListener('change', onChangeType);
 
 function onSetCapacity() {
+  const capacity = adForm.querySelector('#capacity');
   const options = capacity.querySelectorAll('option');
   const optionsToDisable = valuesToDisable[this.value];
   capacity.value = roomsToCapacity[this.value];
@@ -141,4 +118,4 @@ function submitForm(e) {
 adForm.addEventListener('submit', submitForm);
 
 
-export { toggleFormFields, onUploadFinal };
+export { onUploadFinal };

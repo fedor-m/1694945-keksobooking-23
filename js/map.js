@@ -1,6 +1,5 @@
-import { toggleFormFields } from './form.js';
-import { generateCardTemplate } from './card.js';
 import { initFilters } from './filters.js';
+import { generateCardTemplate } from './card.js';
 
 const map = L.map('map-canvas');
 const CENTER = [35.6895, 139.692];
@@ -22,10 +21,39 @@ mainMarker.on('moveend', (e) => {
   document.querySelector('#address').value = `${lat}, ${lng}`;
 });
 mainMarker.setIcon(mainIcon).addTo(map);
+const mapFilters = document.querySelector('.map__filters');
+const mapSelects = mapFilters.querySelectorAll('select');
+const mapCheckboxes = mapFilters.querySelectorAll('input');
+const adForm = document.querySelector('.ad-form');
+const adFieldsets = adForm.querySelectorAll('fieldset');
+const inputs = Array.from(mapSelects).concat(Array.from(mapCheckboxes)).concat(Array.from(adFieldsets));
+
+function initializeCapacity() {
+  const capacity = adForm.querySelector('#capacity');
+  capacity.value = 1;
+  capacity.querySelectorAll('option').forEach((o) => {
+    o.value !== '1' ? ((o.disabled = true), o.removeAttribute('selected')) : '';
+  });
+}
+
+function disableFormFields(isBlocked) {
+  if (isBlocked) {
+    mapFilters.classList.add('map-filters--disabled');
+    adForm.classList.add('ad-form--disabled');
+    map.remove();
+  } else {
+    mapFilters.classList.remove('map-filters--disabled');
+    adForm.classList.remove('ad-form--disabled');
+    initializeCapacity();
+  }
+  inputs.forEach((input) => {
+    input.disabled = isBlocked;
+  });
+}
 
 function initializeMap(createdMap) {
   createdMap.on('load', () => {
-    toggleFormFields(false);
+    disableFormFields(false);
   });
   createdMap.setCenter = CENTER;
   createdMap.setZoom(MIN_ZOOM);
@@ -37,6 +65,7 @@ function initializeMap(createdMap) {
   }).addTo(createdMap);
   return createdMap;
 }
+
 
 function createMarker(point) {
   const { lat, lng } = point.location;
@@ -64,4 +93,4 @@ initializeMap(map);
 
 initFilters();
 
-export { map, CENTER, mainMarker, MIN_ZOOM, createMarker };
+export { map, CENTER, mainMarker, MIN_ZOOM, createMarker, disableFormFields, initializeCapacity };
