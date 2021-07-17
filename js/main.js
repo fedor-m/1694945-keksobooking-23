@@ -1,14 +1,11 @@
 import { loadAnnouncements } from './server.js';
-import { createMarker } from './map.js';
 import { onUploadFinal } from './form.js';
+import { getFiltersData } from './filters.js';
+import { disableFormFields } from './map.js';
 
 function onLoadSuccess(result) {
-  const ANNOUNCEMENTS_COUNT = 10;
   result.then((announcements) =>
-    //announcements.filter()
-    announcements.slice(0, ANNOUNCEMENTS_COUNT).forEach((announcement) => {
-      createMarker(announcement);
-    }),
+    getFiltersData(announcements),
   );
 }
 
@@ -21,6 +18,7 @@ function onLoadError() {
   divError.appendChild(message);
   document.body.appendChild(divError);
   onUploadFinal();
+  disableFormFields(true);
 }
 
 loadAnnouncements(onLoadSuccess, onLoadError);
