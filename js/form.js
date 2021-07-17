@@ -1,5 +1,6 @@
 import { map, CENTER, mainMarker, MIN_ZOOM } from './map.js';
 import { sendAnnouncement } from './server.js';
+import { resetFilters } from './filters.js';
 
 const body = document.body;
 const mapFilters = document.querySelector('.map__filters');
@@ -87,6 +88,7 @@ checkIn.addEventListener('change', onSetTime);
 checkOut.addEventListener('change', onSetTime);
 
 function resetForm() {
+  resetFilters();
   adForm.reset();
   initializeCapacity();
   map.setView(CENTER, MIN_ZOOM);
