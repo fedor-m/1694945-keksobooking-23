@@ -1,6 +1,8 @@
+import { createMarker } from './map.js';
+
 const DEFAULT = 'any';
-const MIN_PRICE=10000;
-const MAX_PRICE=50000;
+const MIN_PRICE = 10000;
+const MAX_PRICE = 50000;
 const filtersForm = document.querySelector('.map__filters');
 const housingType = filtersForm.querySelector('#housing-type');
 const housingPrice = filtersForm.querySelector('#housing-price');
@@ -68,7 +70,10 @@ function onFiltersFormChange(a) {
 }
 
 function getFiltersData(announcements){
-  return announcements.filter(onFiltersFormChange);
+  const ANNOUNCEMENTS_COUNT = 10;
+  announcements.slice(0, ANNOUNCEMENTS_COUNT).forEach((announcement) => {
+    createMarker(announcement);
+  });
 }
 
 function initFilters() {
