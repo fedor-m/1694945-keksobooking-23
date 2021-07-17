@@ -1,10 +1,12 @@
 const DEFAULT = 'any';
+const MIN_PRICE=10000;
+const MAX_PRICE=50000;
 const filtersForm = document.querySelector('.map__filters');
 const housingType = filtersForm.querySelector('#housing-type');
 const housingPrice = filtersForm.querySelector('#housing-price');
 const housingRooms = filtersForm.querySelector('#housing-rooms');
 const housingGuests = filtersForm.querySelector('#housing-guests');
-//const housingFeatures=filtersForm.querySelector('#housing-features');
+const housingFeatures=filtersForm.querySelector('#housing-features');
 /*
   Нужно ли создавать большой объект?
   const filters = {
@@ -28,10 +30,10 @@ function getHousingType(cardData) {
 
 function getHousingPrice(cardData) {
   const priceLimit = {
-    any: cardData.offer.type,
-    middle: cardData.offer.price >= 10000 && cardData.offer.price <= 50000,
-    low: cardData.offer.price < 10000,
-    high: cardData.offer.price >= 50000,
+    any: false,
+    middle: cardData.offer.price >= MIN_PRICE && cardData.offer.price <= MAX_PRICE,
+    low: cardData.offer.price < MIN_PRICE,
+    high: cardData.offer.price >= MAX_PRICE,
   };
   return priceLimit[housingPrice.value];
 }
@@ -44,26 +46,42 @@ function getHousingGuests(cardData) {
   return cardData.offer.guests === DEFAULT ? true : (cardData.offer.guests.toString() === housingGuests.value);
 }
 
-/*function getHousingFeatures(cardData) {
-  const checked = housingFeatures.querySelectorAll('input:checked');
-  return checked.length === 0 ? true : '';
-}*/
+function getHousingFeatures(cardData) {
+  const checkedFeatures = housingFeatures.querySelectorAll('input:checked');
+  const checkedList = [];
+  checkedFeatures.forEach((input) => {
+    checkedList.push(input.value);
+  });
+  if (checkedList.length <= 0) {
+    return false;
+  }
+  const filterFeatures = cardData.offer.features.filter((feature)=>checkedList.includes(feature));
+  return filterFeatures.length >= checkedList.length;
+}
 
-function onFiltersFormChange() {
-  getHousingType();
-  getHousingPrice();
-  getHousingRooms();
-  getHousingGuests();
-  //getHousingFeatures();
-  //return housingType.value
+function onFiltersFormChange(a) {
+  getHousingType(a);
+  getHousingPrice(a);
+  getHousingRooms(a);
+  getHousingGuests(a);
+  getHousingFeatures(a);
 }
 
 function getFiltersData(announcements){
-  announcements.filter(onFiltersFormChange);
+  return announcements.filter(onFiltersFormChange);
 }
 
 function initFilters() {
   filtersForm.addEventListener('change', onFiltersFormChange);
 }
 
-export { initFilters,  getFiltersData};
+function resetFilters(){
+  filtersForm.querySelectorAll('select').forEach((select) => {
+    select.value = 'any';
+  });
+  housingFeatures.forEach((input) => {
+    input.checked = false;
+  });
+}
+
+export { initFilters,  getFiltersData, resetFilters};
