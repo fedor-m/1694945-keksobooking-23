@@ -45,6 +45,7 @@ function disableFormFields(isBlocked) {
     mapFilters.classList.remove('map-filters--disabled');
     adForm.classList.remove('ad-form--disabled');
     initializeCapacity();
+    initFilters();
   }
   inputs.forEach((input) => {
     input.disabled = isBlocked;
@@ -91,6 +92,5 @@ function createMarker(point) {
 
 initializeMap(map);
 
-initFilters();
 
 export { map, CENTER, mainMarker, MIN_ZOOM, createMarker, disableFormFields, initializeCapacity };
