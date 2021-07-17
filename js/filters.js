@@ -1,8 +1,6 @@
 import { createMarker } from './map.js';
 
 const DEFAULT = 'any';
-const MIN_PRICE = 10000;
-const MAX_PRICE = 50000;
 const filtersForm = document.querySelector('.map__filters');
 const housingType = filtersForm.querySelector('#housing-type');
 const housingPrice = filtersForm.querySelector('#housing-price');
@@ -31,6 +29,8 @@ function getHousingType(cardData) {
 }
 
 function getHousingPrice(cardData) {
+  const MIN_PRICE = 10000;
+  const MAX_PRICE = 50000;
   const priceLimit = {
     any: false,
     middle: cardData.offer.price >= MIN_PRICE && cardData.offer.price <= MAX_PRICE,
