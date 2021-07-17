@@ -7,23 +7,7 @@ const housingPrice = filtersForm.querySelector('#housing-price');
 const housingRooms = filtersForm.querySelector('#housing-rooms');
 const housingGuests = filtersForm.querySelector('#housing-guests');
 const housingFeatures = filtersForm.querySelector('#housing-features');
-/*
-  Нужно ли создавать большой объект?
-  const filters = {
-    type: '',
-    price: 0,
-    rooms: 0,
-    guests: 0,
-    features: {
-      wifi: '',
-      dishwasher: '',
-      parking: '',
-      washer: '',
-      elevator: '',
-      conditioner: '',
-    }
-  }
-*/
+
 function getHousingType(cardData) {
   return cardData.offer.type === DEFAULT ? true : (cardData.offer.type === housingType.value);
 }
@@ -61,12 +45,12 @@ function getHousingFeatures(cardData) {
   return filterFeatures.length >= checkedList.length;
 }
 
-function onFiltersFormChange(a) {
-  getHousingType(a);
-  getHousingPrice(a);
-  getHousingRooms(a);
-  getHousingGuests(a);
-  getHousingFeatures(a);
+function onFiltersFormChange() {
+  getHousingType();
+  getHousingPrice();
+  getHousingRooms();
+  getHousingGuests();
+  getHousingFeatures();
 }
 
 function getFiltersData(announcements){
@@ -74,6 +58,17 @@ function getFiltersData(announcements){
   announcements.slice(0, ANNOUNCEMENTS_COUNT).forEach((announcement) => {
     createMarker(announcement);
   });
+  /*
+  announcements.filter((a)=>onFiltersFormChange(a));
+  announcements.
+    filter((a)=>getHousingType(a)).
+    filter((a)=>getHousingPrice(a)).
+    filter((a)=>getHousingRooms(a)).
+    filter((a)=>getHousingGuests(a)).
+    filter((a)=>getHousingFeatures(a))
+    Конструкция возвращает false изначально, соответственно — пустой массив
+    */
+
 }
 
 function initFilters() {
