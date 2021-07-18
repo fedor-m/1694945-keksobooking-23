@@ -1,10 +1,11 @@
-import { initFilters } from './filters.js';
 import { generateCardTemplate } from './card.js';
+import { enableFilters } from './filters.js';
 
-const map = L.map('map-canvas');
+const ANNOUNCEMENTS_COUNT = 10;
 const CENTER = [35.6895, 139.692];
 const MIN_ZOOM = 10;
 const MAX_ZOOM = 22;
+const map = L.map('map-canvas');
 const mainMarker = L.marker();
 const mainIcon = L.icon({
   iconUrl: 'img/main-pin.svg',
@@ -12,6 +13,19 @@ const mainIcon = L.icon({
   iconAnchor: [26, 52],
 });
 const markerGroup = L.layerGroup().addTo(map);
+
+map.on('load', () => {
+  enableFilters();
+});
+map.setCenter = CENTER;
+map.setZoom(MIN_ZOOM);
+map.setMaxZoom(MAX_ZOOM);
+map.setView(CENTER, MIN_ZOOM);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution:
+    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+}).addTo(map);
+
 mainMarker.setLatLng(CENTER);
 mainMarker.options.draggable = true;
 mainMarker.on('moveend', (e) => {
@@ -21,52 +35,6 @@ mainMarker.on('moveend', (e) => {
   document.querySelector('#address').value = `${lat}, ${lng}`;
 });
 mainMarker.setIcon(mainIcon).addTo(map);
-const mapFilters = document.querySelector('.map__filters');
-const mapSelects = mapFilters.querySelectorAll('select');
-const mapCheckboxes = mapFilters.querySelectorAll('input');
-const adForm = document.querySelector('.ad-form');
-const adFieldsets = adForm.querySelectorAll('fieldset');
-const inputs = Array.from(mapSelects).concat(Array.from(mapCheckboxes)).concat(Array.from(adFieldsets));
-
-function initializeCapacity() {
-  const capacity = adForm.querySelector('#capacity');
-  capacity.value = 1;
-  capacity.querySelectorAll('option').forEach((o) => {
-    o.value !== '1' ? ((o.disabled = true), o.removeAttribute('selected')) : '';
-  });
-}
-
-function disableFormFields(isBlocked) {
-  if (isBlocked) {
-    mapFilters.classList.add('map-filters--disabled');
-    adForm.classList.add('ad-form--disabled');
-    map.remove();
-  } else {
-    mapFilters.classList.remove('map-filters--disabled');
-    adForm.classList.remove('ad-form--disabled');
-    initializeCapacity();
-    initFilters();
-  }
-  inputs.forEach((input) => {
-    input.disabled = isBlocked;
-  });
-}
-
-function initializeMap(createdMap) {
-  createdMap.on('load', () => {
-    disableFormFields(false);
-  });
-  createdMap.setCenter = CENTER;
-  createdMap.setZoom(MIN_ZOOM);
-  createdMap.setMaxZoom(MAX_ZOOM);
-  createdMap.setView(CENTER, MIN_ZOOM);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution:
-      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  }).addTo(createdMap);
-  return createdMap;
-}
-
 
 function createMarker(point) {
   const { lat, lng } = point.location;
@@ -90,7 +58,11 @@ function createMarker(point) {
   marker.addTo(markerGroup);
 }
 
-initializeMap(map);
+function renderMarkers(announcements) {
+  markerGroup.clearLayers();
+  announcements
+    .slice(0, ANNOUNCEMENTS_COUNT)
+    .forEach((announcement) => createMarker(announcement));
+}
 
-
-export { map, CENTER, mainMarker, MIN_ZOOM, createMarker, disableFormFields, initializeCapacity };
+export { map, CENTER, mainMarker, MIN_ZOOM, renderMarkers };

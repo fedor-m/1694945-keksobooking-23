@@ -1,6 +1,6 @@
-import { map, CENTER, mainMarker, MIN_ZOOM, initializeCapacity } from './map.js';
+import { map, CENTER, mainMarker, MIN_ZOOM} from './map.js';
 import { sendAnnouncement } from './server.js';
-import { resetFilters } from './filters.js';
+//import { resetFilters } from './filters.js';
 
 const body = document.body;
 
@@ -65,9 +65,9 @@ checkIn.addEventListener('change', onSetTime);
 checkOut.addEventListener('change', onSetTime);
 
 function resetForm() {
-  resetFilters();
+  //resetFilters();
   adForm.reset();
-  initializeCapacity();
+  //initializeCapacity();
   map.setView(CENTER, MIN_ZOOM);
   mainMarker.setLatLng(CENTER);
 }

@@ -1,5 +1,6 @@
-const addressToLoad = 'https://23.javascript.pages.academy/keksobooking/data';
+
 const addressToSend = 'https://23.javascript.pages.academy/keksobooking';
+const addressToLoad = `${addressToSend}/data`;
 
 function loadAnnouncements(onSuccess, onFail) {
   return fetch(addressToLoad, {
