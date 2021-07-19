@@ -1,10 +1,21 @@
-const TYPE_TO_NAME = {
+const typeToName = {
   palace: 'Дворец',
   flat: 'Квартира',
   house: 'Дом',
   bungalow: 'Бунгало',
   hotel: 'Отель',
 };
+
+function createPhoto(photo) {
+  const img = document.createElement('img');
+  img.setAttribute('src', photo);
+  img.classList.add('popup__photo');
+  img.setAttribute('width', 45);
+  img.setAttribute('height', 40);
+  img.setAttribute('alt', 'Фотография жилья');
+  return img;
+}
+
 function generateCardTemplate(cardData) {
   const card = document.querySelector('#card').content;
   const cardTemplate = card.cloneNode(true);
@@ -24,7 +35,7 @@ function generateCardTemplate(cardData) {
   title.textContent = cardData.offer.title;
   address.textContent = cardData.offer.address;
   price.textContent = `${cardData.offer.price} ₽ за ночь`;
-  type.textContent = TYPE_TO_NAME[cardData.offer.type];
+  type.textContent = typeToName[cardData.offer.type];
   capacity.textContent = ` ${cardData.offer.rooms} комната(ы) для размещения ${cardData.offer.guests} гостя(ей)`;
   time.textContent = `Заезд после ${cardData.offer.checkin}, выезд до ${cardData.offer.checkout}`;
   description.textContent = cardData.offer.description;
@@ -40,15 +51,11 @@ function generateCardTemplate(cardData) {
   photos.innerHTML = '';
   if (dataPhotos) {
     dataPhotos.forEach((photo) => {
-      const img = document.createElement('img');
-      img.setAttribute('src', photo);
-      img.classList.add('popup__photo');
-      img.setAttribute('width', 45);
-      img.setAttribute('height', 40);
-      img.setAttribute('alt', 'Фотография жилья');
-      cardTemplate.querySelector('.popup__photos').appendChild(img);
+      const image=createPhoto(photo);
+      cardTemplate.querySelector('.popup__photos').appendChild(image);
     });
   }
   return cardTemplate;
 }
+
 export { generateCardTemplate };

@@ -1,54 +1,51 @@
-import { toggleFormFields } from './form.js';
 import { generateCardTemplate } from './card.js';
+import { enableFilters } from './filters.js';
+import { enableFormElements } from './form.js';
 
-const MAP = L.map('map-canvas');
-const CENTER = [35.6895, 139.692];
+const ANNOUNCEMENTS_COUNT = 10;
+const DIGITS=5;
+const CENTER = [35.68950, 139.69171];
 const MIN_ZOOM = 10;
 const MAX_ZOOM = 22;
-/*const northEast = [35.799747, 139.879467];
-const southWest = [35.795068, 139.748757];*/
-const MAIN_MARKER = L.marker();
-MAIN_MARKER.setLatLng(CENTER);
-MAIN_MARKER.options.draggable = true;
-const MAIN_ICON = L.icon({
+const map = L.map('map-canvas');
+const mainMarker = L.marker();
+const mainIcon = L.icon({
   iconUrl: 'img/main-pin.svg',
   iconSize: [52, 52],
   iconAnchor: [26, 52],
 });
-MAIN_MARKER.on('moveend', (evt) => {
-  const coordinates = evt.target.getLatLng();
-  const lat = coordinates.lat;
-  const lng = coordinates.lng;
+const markerGroup = L.layerGroup().addTo(map);
+
+map.on('load', () => {
+  enableFilters();
+  enableFormElements();
+});
+map.setCenter = CENTER;
+map.setZoom(MIN_ZOOM);
+map.setMaxZoom(MAX_ZOOM);
+map.setView(CENTER, MIN_ZOOM);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution:
+    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+}).addTo(map);
+
+mainMarker.setLatLng(CENTER);
+mainMarker.options.draggable = true;
+mainMarker.on('moveend', (e) => {
+  const coordinates = e.target.getLatLng();
+  const lat = coordinates.lat.toFixed(DIGITS);
+  const lng = coordinates.lng.toFixed(DIGITS);
   document.querySelector('#address').value = `${lat}, ${lng}`;
 });
-MAIN_MARKER.setIcon(MAIN_ICON).addTo(MAP);
+mainMarker.setIcon(mainIcon).addTo(map);
 
-function initializeMap(map) {
-  map.on('load', () => {
-    toggleFormFields(false);
-  });
-  map.CENTER = CENTER;
-  map.setZoom(MIN_ZOOM);
-  map.setMaxZoom(MAX_ZOOM);
-  map.setView(map.CENTER, map.zoom);
-  /*map.setMaxBounds([northEast, southWest]);*/
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution:
-      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  }).addTo(map);
-  return map;
-}
-const markerGroup = L.layerGroup().addTo(MAP);
 function createMarker(point) {
-  //console.log(point);
   const { lat, lng } = point.location;
-
   const icon = L.icon({
     iconUrl: 'img/pin.svg',
     iconSize: [40, 40],
     iconAnchor: [20, 40],
   });
-
   const marker = L.marker(
     {
       lat,
@@ -64,5 +61,11 @@ function createMarker(point) {
   marker.addTo(markerGroup);
 }
 
-initializeMap(MAP);
-export { MAP, CENTER, MAIN_MARKER, MIN_ZOOM, createMarker };
+function renderMarkers(announcements) {
+  markerGroup.clearLayers();
+  announcements
+    .slice(0, ANNOUNCEMENTS_COUNT)
+    .forEach((announcement) => createMarker(announcement));
+}
+
+export { map, CENTER, mainMarker, MIN_ZOOM, renderMarkers };
