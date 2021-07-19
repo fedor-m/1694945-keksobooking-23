@@ -1,7 +1,7 @@
-import { map, CENTER, mainMarker, MIN_ZOOM} from './map.js';
+import { map, CENTER, mainMarker, MIN_ZOOM } from './map.js';
 import { sendAnnouncement } from './server.js';
 import { resetFilters } from './filters.js';
-
+//import { readAvatar, readPhoto, resetAvatar, resetPhoto } from './photo.js';
 
 const body = document.body;
 const MIN_GUESTS = 1;
@@ -32,15 +32,20 @@ const capacity = adForm.querySelector('#capacity');
 const capacityOptions = [...capacity.children];
 const checkIn = adForm.querySelector('#timein');
 const checkOut = adForm.querySelector('#timeout');
+const submit = adForm.querySelector('.ad-form__submit');
 const reset = adForm.querySelector('.ad-form__reset');
+/*const avatar = adForm.querySelector('#avatar');
+const photo = adForm.querySelector('#images');*/
+const required = adForm.querySelectorAll('input:required');
 const adFormElements = [...adForm.children];
 
-function initializeCapacity()
-{
-  capacity.value=String(MIN_GUESTS);
-  capacityOptions.forEach((option)=>{
+function initializeCapacity() {
+  capacity.value = String(MIN_GUESTS);
+  capacityOptions.forEach((option) => {
     option.removeAttribute('selected');
-    option.value!==capacity.value ? option.disabled=true : option.disabled=false;
+    option.value !== capacity.value
+      ? (option.disabled = true)
+      : (option.disabled = false);
   });
 }
 
@@ -59,7 +64,6 @@ function enableFormElements() {
   initializeCapacity();
 }
 
-
 function onChangeType() {
   const price = adForm.querySelector('#price');
   price.setAttribute('min', typeToMinPrice[this.value]);
@@ -68,7 +72,6 @@ function onChangeType() {
 type.addEventListener('change', onChangeType);
 
 function onSetCapacity() {
-
   const optionsToDisable = valuesToDisable[this.value];
   capacity.value = roomsToCapacity[this.value];
   for (let i = 0; i < capacityOptions.length; i++) {
@@ -91,9 +94,21 @@ function onSetTime(e) {
 checkIn.addEventListener('change', onSetTime);
 checkOut.addEventListener('change', onSetTime);
 
+function checkRequiredInputs() {
+  required.forEach((input) => {
+    !input.checkValidity()
+      ? (input.style.borderColor = 'red')
+      : input.removeAttribute('style');
+  });
+}
 function resetForm() {
   adForm.reset();
+  /*resetAvatar();
+  resetPhoto();*/
   initializeCapacity();
+  required.forEach((input) => {
+    input.removeEventListener('change', checkRequiredInputs);
+  });
   map.setView(CENTER, MIN_ZOOM);
   mainMarker.setLatLng(CENTER);
   resetFilters();
@@ -103,12 +118,9 @@ reset.addEventListener('click', resetForm);
 function closePopup() {
   const divSuccess = document.querySelector('div.success');
   const divError = document.querySelector('div.error');
-  if(divSuccess)
-  {
+  if (divSuccess) {
     divSuccess.remove();
-  }
-  else if(divError)
-  {
+  } else if (divError) {
     divError.remove();
   }
   document.removeEventListener('click', closePopup);
@@ -119,22 +131,24 @@ function pressButton(e) {
   e.key === 'Escape' ? closePopup() : '';
 }
 
-function onUploadSuccess()
-{
+function onUploadSuccess() {
   const templateSuccess = document.querySelector('#success').content;
   resetForm();
   body.appendChild(templateSuccess);
 }
 
-function onUploadError(){
+function onUploadError() {
   const templateError = document.querySelector('#error').content;
   body.appendChild(templateError);
 }
 
-function onUploadFinal(){
+function onUploadFinal() {
   document.addEventListener('click', closePopup);
   document.addEventListener('keyup', pressButton);
 }
+
+/*avatar.addEventListener('change',readAvatar);
+photo.addEventListener('change',readPhoto);*/
 
 function submitForm(e) {
   e.preventDefault();
@@ -142,6 +156,7 @@ function submitForm(e) {
   sendAnnouncement(onUploadSuccess, onUploadError, onUploadFinal, formData);
 }
 
+submit.addEventListener('click', checkRequiredInputs);
 adForm.addEventListener('submit', submitForm);
 
 export { onUploadFinal, disableFormElements, enableFormElements };
