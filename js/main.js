@@ -4,7 +4,7 @@ import { filtersForm, getFiltersData, disableFilters } from './filters.js';
 import { onUploadFinal, disableFormElements } from './form.js';
 import { debounce } from './utils/debounce.js';
 
-const DELAY=500;
+const DELAY = 500;
 
 function onLoadSuccess(announcements) {
   renderMarkers(announcements);
@@ -12,7 +12,7 @@ function onLoadSuccess(announcements) {
     const filteredAnnouncements = getFiltersData(announcements);
     renderMarkers(filteredAnnouncements);
   };
-  filtersForm.addEventListener('change', debounce(withFilters,DELAY));
+  filtersForm.addEventListener('change', debounce(withFilters, DELAY));
 }
 function onLoadError() {
   const divError = document.createElement('div');
@@ -29,4 +29,4 @@ function onLoadError() {
 
 loadAnnouncements(onLoadSuccess, onLoadError);
 
-export {onLoadSuccess, onLoadError};
+export { onLoadSuccess, onLoadError };
