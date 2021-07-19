@@ -17,6 +17,9 @@ function onLoadSuccess(announcements) {
 function onLoadError() {
   const divError = document.createElement('div');
   const message = document.createElement('p');
+  const mapCanvas=document.querySelector('#map-canvas');
+  mapCanvas.classList=['map__canvas'];
+  mapCanvas.innerHTML='';
   divError.classList.add('error');
   message.classList.add('error__message');
   message.textContent = 'Ошибка загрузки данных с сервера!';
