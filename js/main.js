@@ -25,3 +25,5 @@ function onLoadError() {
 }
 
 loadAnnouncements(onLoadSuccess, onLoadError);
+
+export {onLoadSuccess, onLoadError};
