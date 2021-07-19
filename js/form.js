@@ -1,7 +1,10 @@
 import { map, CENTER, mainMarker, MIN_ZOOM} from './map.js';
 import { sendAnnouncement } from './server.js';
+import { resetFilters } from './filters.js';
+
 
 const body = document.body;
+const MIN_GUESTS = 1;
 const typeToMinPrice = {
   bungalow: 0,
   flat: 1000,
@@ -25,10 +28,21 @@ const valuesToDisable = {
 const adForm = document.querySelector('.ad-form');
 const type = adForm.querySelector('#type');
 const roomNumber = adForm.querySelector('#room_number');
+const capacity = adForm.querySelector('#capacity');
+const capacityOptions = [...capacity.children];
 const checkIn = adForm.querySelector('#timein');
 const checkOut = adForm.querySelector('#timeout');
 const reset = adForm.querySelector('.ad-form__reset');
 const adFormElements = [...adForm.children];
+
+function initializeCapacity()
+{
+  capacity.value=String(MIN_GUESTS);
+  capacityOptions.forEach((option)=>{
+    option.removeAttribute('selected');
+    option.value!==capacity.value ? option.disabled=true : option.disabled=false;
+  });
+}
 
 function disableFormElements() {
   adForm.classList.add('ad-form--disabled');
@@ -42,7 +56,9 @@ function enableFormElements() {
   adFormElements.forEach((element) => {
     element.disabled = false;
   });
+  initializeCapacity();
 }
+
 
 function onChangeType() {
   const price = adForm.querySelector('#price');
@@ -52,16 +68,15 @@ function onChangeType() {
 type.addEventListener('change', onChangeType);
 
 function onSetCapacity() {
-  const capacity = adForm.querySelector('#capacity');
-  const options = capacity.querySelectorAll('option');
+
   const optionsToDisable = valuesToDisable[this.value];
   capacity.value = roomsToCapacity[this.value];
-  for (let i = 0; i < options.length; i++) {
-    options[i].disabled = false;
-    options[i].removeAttribute('selected');
+  for (let i = 0; i < capacityOptions.length; i++) {
+    capacityOptions[i].disabled = false;
+    capacityOptions[i].removeAttribute('selected');
     for (let j = 0; j < optionsToDisable.length; j++) {
-      if (options[i].value === optionsToDisable[j]) {
-        options[i].disabled = true;
+      if (capacityOptions[i].value === optionsToDisable[j]) {
+        capacityOptions[i].disabled = true;
       }
     }
   }
@@ -78,9 +93,10 @@ checkOut.addEventListener('change', onSetTime);
 
 function resetForm() {
   adForm.reset();
-  //initializeCapacity();
+  initializeCapacity();
   map.setView(CENTER, MIN_ZOOM);
   mainMarker.setLatLng(CENTER);
+  resetFilters();
 }
 reset.addEventListener('click', resetForm);
 
