@@ -1,4 +1,5 @@
-
+const MIN_PRICE = 10000;
+const MAX_PRICE = 50000;
 const filtersForm = document.querySelector('.map__filters');
 const housingType = filtersForm.querySelector('#housing-type');
 const housingPrice = filtersForm.querySelector('#housing-price');
@@ -16,9 +17,9 @@ const HOUSING_TYPE_VALUES = {
 };
 const PRICE_VALUES = {
   'any': (value) => value,
-  'middle': (value) => value >= 10000 && value <= 50000,
-  'low': (value) => value <= 10000,
-  'high': (value) => value >= 50000,
+  'middle': (value) => value >= MIN_PRICE && value <= MAX_PRICE,
+  'low': (value) => value <= MIN_PRICE,
+  'high': (value) => value >= MAX_PRICE,
 };
 const ROOMS_VALUES = {
   'any': (value) => value,
@@ -54,13 +55,14 @@ const filterByFeatures = (sortItem) => {
   return selectedFeatures.every((feature) => features && features.includes(feature.value));
 };
 function getFiltersData(announcements) {
-  return announcements.filter((announcement) => {
-    filterByHousingType(announcement) &&
+  return announcements.filter(
+    (announcement) =>
+      filterByHousingType(announcement) &&
       filterByPrice(announcement) &&
       filterByRooms(announcement) &&
       filterByGuests(announcement) &&
-      filterByFeatures(announcement);
-  });
+      filterByFeatures(announcement),
+  );
 }
 function disableFilters() {
   filtersForm.classList.add('map-filters--disabled');
