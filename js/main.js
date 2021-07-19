@@ -2,6 +2,9 @@ import { loadAnnouncements } from './server.js';
 import { renderMarkers } from './map.js';
 import { filtersForm, getFiltersData, disableFilters } from './filters.js';
 import { onUploadFinal, disableFormElements } from './form.js';
+import { debounce } from './utils/debounce.js';
+
+const DELAY=500;
 
 function onLoadSuccess(announcements) {
   renderMarkers(announcements);
@@ -9,7 +12,7 @@ function onLoadSuccess(announcements) {
     const filteredAnnouncements = getFiltersData(announcements);
     renderMarkers(filteredAnnouncements);
   };
-  filtersForm.addEventListener('change', withFilters);
+  filtersForm.addEventListener('change', debounce(withFilters,DELAY));
 }
 function onLoadError() {
   const divError = document.createElement('div');
