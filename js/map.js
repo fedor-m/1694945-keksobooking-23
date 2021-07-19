@@ -3,7 +3,8 @@ import { enableFilters } from './filters.js';
 import { enableFormElements } from './form.js';
 
 const ANNOUNCEMENTS_COUNT = 10;
-const CENTER = [35.6895, 139.692];
+const DIGITS=5;
+const CENTER = [35.68950, 139.69171];
 const MIN_ZOOM = 10;
 const MAX_ZOOM = 22;
 const map = L.map('map-canvas');
@@ -32,8 +33,8 @@ mainMarker.setLatLng(CENTER);
 mainMarker.options.draggable = true;
 mainMarker.on('moveend', (e) => {
   const coordinates = e.target.getLatLng();
-  const lat = coordinates.lat;
-  const lng = coordinates.lng;
+  const lat = coordinates.lat.toFixed(DIGITS);
+  const lng = coordinates.lng.toFixed(DIGITS);
   document.querySelector('#address').value = `${lat}, ${lng}`;
 });
 mainMarker.setIcon(mainIcon).addTo(map);
