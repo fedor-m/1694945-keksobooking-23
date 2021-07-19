@@ -88,7 +88,8 @@
               <img src="img/muffin-grey.svg" alt="Аватар пользователя" width="40" height="44">
             </div>
             <div class="ad-form__field">
-              <input type="file" id="avatar" name="avatar" class="ad-form-header__input visually-hidden">
+              <input type="file" id="avatar" name="avatar" class="ad-form-header__input visually-hidden"
+                accept="img/jpeg, img/png, img/gif">
               <label class="ad-form-header__drop-zone" for="avatar">Загрузить<br>фото...</label>
             </div>
             <p class="ad-form-header__info">Заполните все обязательные поля, назначьте цену, загрузите аватар и фото
@@ -103,11 +104,11 @@
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--wide" disabled>
           <label class="ad-form__label" for="address">Адрес (координаты)</label>
-          <input id="address" name="address" type="text" required readonly value="35.6895, 139.692">
+          <input id="address" name="address" type="text" required readonly value="35.68950, 139.69171">
         </fieldset>
         <fieldset class="ad-form__element" disabled>
           <label class="ad-form__label" for="type">Тип жилья</label>
-          <select id="type" name="type" required>
+          <select id="type" name="type">
             <option value="bungalow">Бунгало</option>
             <option value="flat" selected>Квартира</option>
             <option value="hotel">Отель</option>
@@ -181,7 +182,8 @@
           <label class="ad-form__label">Фотография жилья</label>
           <div class="ad-form__photo-container">
             <div class="ad-form__upload">
-              <input type="file" id="images" name="images" class="ad-form__input visually-hidden">
+              <input type="file" id="images" name="images" class="ad-form__input visually-hidden"
+                accept="img/jpeg, img/png, img/gif">
               <label for="images" class="ad-form__drop-zone">Загрузить<br>фото...</label>
             </div>
             <div class="ad-form__photo"></div>
