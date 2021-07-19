@@ -1,5 +1,6 @@
 import { generateCardTemplate } from './card.js';
 import { enableFilters } from './filters.js';
+import { enableFormElements } from './form.js';
 
 const ANNOUNCEMENTS_COUNT = 10;
 const CENTER = [35.6895, 139.692];
@@ -16,6 +17,7 @@ const markerGroup = L.layerGroup().addTo(map);
 
 map.on('load', () => {
   enableFilters();
+  enableFormElements();
 });
 map.setCenter = CENTER;
 map.setZoom(MIN_ZOOM);
