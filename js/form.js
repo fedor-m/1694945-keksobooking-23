@@ -1,9 +1,7 @@
 import { map, CENTER, mainMarker, MIN_ZOOM} from './map.js';
 import { sendAnnouncement } from './server.js';
-//import { resetFilters } from './filters.js';
 
 const body = document.body;
-
 const typeToMinPrice = {
   bungalow: 0,
   flat: 1000,
@@ -23,14 +21,28 @@ const valuesToDisable = {
   3: ['0'],
   100: ['1', '2', '3'],
 };
+
 const adForm = document.querySelector('.ad-form');
 const type = adForm.querySelector('#type');
 const roomNumber = adForm.querySelector('#room_number');
-
 const checkIn = adForm.querySelector('#timein');
 const checkOut = adForm.querySelector('#timeout');
 const reset = adForm.querySelector('.ad-form__reset');
+const adFormElements = [...adForm.children];
 
+function disableFormElements() {
+  adForm.classList.add('ad-form--disabled');
+  adFormElements.forEach((element) => {
+    element.disabled = true;
+  });
+}
+
+function enableFormElements() {
+  adForm.classList.remove('ad-form--disabled');
+  adFormElements.forEach((element) => {
+    element.disabled = false;
+  });
+}
 
 function onChangeType() {
   const price = adForm.querySelector('#price');
@@ -65,7 +77,6 @@ checkIn.addEventListener('change', onSetTime);
 checkOut.addEventListener('change', onSetTime);
 
 function resetForm() {
-  //resetFilters();
   adForm.reset();
   //initializeCapacity();
   map.setView(CENTER, MIN_ZOOM);
@@ -117,5 +128,4 @@ function submitForm(e) {
 
 adForm.addEventListener('submit', submitForm);
 
-
-export { onUploadFinal };
+export { onUploadFinal, disableFormElements, enableFormElements };
