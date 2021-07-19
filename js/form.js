@@ -1,7 +1,7 @@
 import { map, CENTER, mainMarker, MIN_ZOOM } from './map.js';
 import { sendAnnouncement } from './server.js';
 import { resetFilters } from './filters.js';
-//import { readAvatar, readPhoto, resetAvatar, resetPhoto } from './photo.js';
+import { readAvatar, readPhoto, resetAvatar, resetPhoto } from './photo.js';
 
 const body = document.body;
 const MIN_GUESTS = 1;
@@ -34,8 +34,8 @@ const checkIn = adForm.querySelector('#timein');
 const checkOut = adForm.querySelector('#timeout');
 const submit = adForm.querySelector('.ad-form__submit');
 const reset = adForm.querySelector('.ad-form__reset');
-/*const avatar = adForm.querySelector('#avatar');
-const photo = adForm.querySelector('#images');*/
+const avatar = adForm.querySelector('#avatar');
+const photo = adForm.querySelector('#images');
 const required = adForm.querySelectorAll('input:required');
 const adFormElements = [...adForm.children];
 
@@ -103,8 +103,8 @@ function checkRequiredInputs() {
 }
 function resetForm() {
   adForm.reset();
-  /*resetAvatar();
-  resetPhoto();*/
+  resetAvatar();
+  resetPhoto();
   initializeCapacity();
   required.forEach((input) => {
     input.removeEventListener('change', checkRequiredInputs);
@@ -147,8 +147,8 @@ function onUploadFinal() {
   document.addEventListener('keyup', pressButton);
 }
 
-/*avatar.addEventListener('change',readAvatar);
-photo.addEventListener('change',readPhoto);*/
+avatar.addEventListener('change',readAvatar);
+photo.addEventListener('change',readPhoto);
 
 function submitForm(e) {
   e.preventDefault();
