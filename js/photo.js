@@ -7,14 +7,11 @@ const DEFAULT_AVATAR = 'img/muffin-grey.svg';
 function loadPreview(file, preview) {
   const fileName = file.name.toLowerCase();
   const matches = fileTypes.some((it) => fileName.endsWith(it));
-
   if (matches) {
     const reader = new FileReader();
-
     reader.addEventListener('load', () => {
       preview.src = reader.result;
     });
-
     reader.readAsDataURL(file);
   }
 }
