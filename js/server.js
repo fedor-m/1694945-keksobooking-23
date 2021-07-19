@@ -8,8 +8,13 @@ function loadAnnouncements(onSuccess, onFail) {
     credentials: 'same-origin',
   })
     .then((response) => {
-      response.ok ? onSuccess(response.json()) : onFail();
+      if (response.ok) {
+        return response.json();
+      } else {
+        onFail();
+      }
     })
+    .then((data) => onSuccess(data))
     .catch(() => {
       onFail();
     });
