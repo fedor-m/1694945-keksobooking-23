@@ -145,8 +145,8 @@ function onUploadFinal() {
   document.addEventListener('keyup', pressButton);
 }
 
-avatar.addEventListener('change',readAvatar);
-photo.addEventListener('change',readPhoto);
+avatar.addEventListener('change', readAvatar);
+photo.addEventListener('change', readPhoto);
 
 function submitForm(e) {
   e.preventDefault();

@@ -51,7 +51,7 @@ function generateCardTemplate(cardData) {
   photos.innerHTML = '';
   if (dataPhotos) {
     dataPhotos.forEach((photo) => {
-      const image=createPhoto(photo);
+      const image = createPhoto(photo);
       cardTemplate.querySelector('.popup__photos').appendChild(image);
     });
   }

@@ -3,8 +3,8 @@ import { enableFilters } from './filters.js';
 import { enableFormElements } from './form.js';
 
 const ANNOUNCEMENTS_COUNT = 10;
-const DIGITS=5;
-const CENTER = [35.68950, 139.69171];
+const DIGITS = 5;
+const CENTER = [35.6895, 139.69171];
 const MIN_ZOOM = 10;
 const MAX_ZOOM = 22;
 const map = L.map('map-canvas');

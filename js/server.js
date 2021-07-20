@@ -1,4 +1,3 @@
-
 const addressToSend = 'https://23.javascript.pages.academy/keksobooking';
 const addressToLoad = `${addressToSend}/data`;
 
@@ -20,8 +19,7 @@ function loadAnnouncements(onSuccess, onFail) {
     });
 }
 
-function sendAnnouncement(onSuccess, onFail, onFinal, announcement)
-{
+function sendAnnouncement(onSuccess, onFail, onFinal, announcement) {
   return fetch(addressToSend, {
     method: 'POST',
     body: announcement,
