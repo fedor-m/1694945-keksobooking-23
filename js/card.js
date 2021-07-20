@@ -43,8 +43,7 @@ function generateCardTemplate(cardData) {
   if (dataFeatures) {
     dataFeatures.forEach((feature)=>{
       const li=document.createElement('li');
-      li.classList.add('popup__feature');
-      li.classList.add(`popup__feature--${feature}`);
+      li.classList.add('popup__feature', `popup__feature--${feature}`);
       features.appendChild(li);
     });
   }
