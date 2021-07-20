@@ -1,7 +1,7 @@
 import { map, CENTER, mainMarker, MIN_ZOOM } from './map.js';
 import { sendAnnouncement } from './server.js';
 import { resetFilters } from './filters.js';
-import { readAvatar, readPhoto, resetAvatar, resetPhoto } from './photo.js';
+import { onReadAvatar, onReadPhoto, resetAvatar, resetPhoto } from './photo.js';
 
 const body = document.body;
 const MIN_GUESTS = 1;
@@ -94,26 +94,26 @@ function onSetTime(e) {
 checkIn.addEventListener('change', onSetTime);
 checkOut.addEventListener('change', onSetTime);
 
-function checkRequiredInputs() {
+function onCheckRequiredInputs() {
   adForm.classList.add('ad-form--validated');
 }
 
-function resetForm() {
+function onResetForm() {
   adForm.reset();
   adForm.classList.remove('ad-form--validated');
   resetAvatar();
   resetPhoto();
   initializeCapacity();
   required.forEach((input) => {
-    input.removeEventListener('change', checkRequiredInputs);
+    input.removeEventListener('change', onCheckRequiredInputs);
   });
   map.setView(CENTER, MIN_ZOOM);
   mainMarker.setLatLng(CENTER);
   resetFilters();
 }
-reset.addEventListener('click', resetForm);
+reset.addEventListener('click', onResetForm);
 
-function closePopup() {
+function onClosePopup() {
   const divSuccess = document.querySelector('div.success');
   const divError = document.querySelector('div.error');
   if (divSuccess) {
@@ -121,17 +121,17 @@ function closePopup() {
   } else if (divError) {
     divError.remove();
   }
-  document.removeEventListener('click', closePopup);
-  document.removeEventListener('keyup', closePopup);
+  document.removeEventListener('click', onClosePopup);
+  document.removeEventListener('keyup', onClosePopup);
 }
 
-function pressButton(e) {
-  e.key === 'Escape' ? closePopup() : '';
+function onPressButton(e) {
+  e.key === 'Escape' ? onClosePopup() : '';
 }
 
 function onUploadSuccess() {
   const templateSuccess = document.querySelector('#success').content;
-  resetForm();
+  onResetForm();
   body.appendChild(templateSuccess);
 }
 
@@ -141,20 +141,20 @@ function onUploadError() {
 }
 
 function onUploadFinal() {
-  document.addEventListener('click', closePopup);
-  document.addEventListener('keyup', pressButton);
+  document.addEventListener('click', onClosePopup);
+  document.addEventListener('keyup', onPressButton);
 }
 
-avatar.addEventListener('change', readAvatar);
-photo.addEventListener('change', readPhoto);
+avatar.addEventListener('change', onReadAvatar);
+photo.addEventListener('change', onReadPhoto);
 
-function submitForm(e) {
+function onSubmitForm(e) {
   e.preventDefault();
   const formData = new FormData(adForm);
   sendAnnouncement(onUploadSuccess, onUploadError, onUploadFinal, formData);
 }
 
-submit.addEventListener('click', checkRequiredInputs);
-adForm.addEventListener('submit', submitForm);
+submit.addEventListener('click', onCheckRequiredInputs);
+adForm.addEventListener('submit', onSubmitForm);
 
 export { onUploadFinal, disableFormElements, enableFormElements };
