@@ -14,7 +14,8 @@ const mainIcon = L.icon({
   iconSize: [52, 52],
   iconAnchor: [26, 52],
 });
-const markerGroup = L.layerGroup().addTo(map);
+const markerGroup = L.layerGroup();
+markerGroup.addTo(map);
 
 map.on('load', () => {
   enableFilters();
@@ -61,11 +62,22 @@ function createMarker(point) {
   marker.addTo(markerGroup);
 }
 
-function renderMarkers(announcements) {
-  markerGroup.clearLayers();
-  announcements
-    .slice(0, ANNOUNCEMENTS_COUNT)
-    .forEach((announcement) => createMarker(announcement));
+function generateMarkers(announcements)
+{
+  const newAnnouncements=announcements.slice(0, ANNOUNCEMENTS_COUNT);
+  newAnnouncements.forEach((announcement) => createMarker(announcement));
+  return newAnnouncements;
 }
 
-export { map, CENTER, mainMarker, MIN_ZOOM, renderMarkers };
+function renderMarkers(announcements) {
+  markerGroup.clearLayers();
+  generateMarkers(announcements);
+}
+
+function restoreMarkers(markers)
+{
+  markerGroup.clearLayers();
+  markers.forEach((marker) => createMarker(marker));
+}
+
+export { map, CENTER, mainMarker, MIN_ZOOM, generateMarkers, renderMarkers, restoreMarkers };
