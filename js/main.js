@@ -8,11 +8,11 @@ const DELAY = 500;
 
 function onLoadSuccess(announcements) {
   const markers=generateMarkers(announcements);
-  const withFilters = () => {
+  const applyFilters = () => {
     const filteredAnnouncements = getFiltersData(announcements);
     renderMarkers(filteredAnnouncements);
   };
-  filtersForm.addEventListener('change', debounce(withFilters, DELAY));
+  filtersForm.addEventListener('change', debounce(applyFilters, DELAY));
   getMarkers(markers);
 }
 
