@@ -130,13 +130,13 @@ function onPressButton(e) {
 }
 
 function onUploadSuccess() {
-  const templateSuccess = document.querySelector('#success').content;
+  const templateSuccess = document.querySelector('#success').content.cloneNode(true);
   onResetForm();
   body.appendChild(templateSuccess);
 }
 
 function onUploadError() {
-  const templateError = document.querySelector('#error').content;
+  const templateError = document.querySelector('#error').content.cloneNode(true);
   body.appendChild(templateError);
 }
 
