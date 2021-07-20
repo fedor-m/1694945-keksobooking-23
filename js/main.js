@@ -1,25 +1,31 @@
 import { loadAnnouncements } from './server.js';
-import { renderMarkers } from './map.js';
-import { filtersForm, getFiltersData, disableFilters } from './filters.js';
+import { generateMarkers, renderMarkers } from './map.js';
+import { filtersForm, getFiltersData, disableFilters, getMarkers } from './filters.js';
 import { onUploadFinal, disableFormElements } from './form.js';
 import { debounce } from './debounce.js';
 
 const DELAY = 500;
 
 function onLoadSuccess(announcements) {
-  renderMarkers(announcements);
+  const markers=generateMarkers(announcements);
   const withFilters = () => {
     const filteredAnnouncements = getFiltersData(announcements);
     renderMarkers(filteredAnnouncements);
   };
   filtersForm.addEventListener('change', debounce(withFilters, DELAY));
+  getMarkers(markers);
 }
 
 function onLoadError() {
   const divError = document.createElement('div');
   const message = document.createElement('p');
   const mapCanvas = document.querySelector('#map-canvas');
-  mapCanvas.classList = ['map__canvas'];
+  const mapCanvasClasses = [...mapCanvas.classList];
+  for (let i = 0; i < mapCanvasClasses.length; i++) {
+    if (mapCanvasClasses[i].match('leaflet')) {
+      mapCanvas.classList.remove(mapCanvasClasses[i]);
+    }
+  }
   mapCanvas.innerHTML = '';
   divError.classList.add('error');
   message.classList.add('error__message');
@@ -33,4 +39,4 @@ function onLoadError() {
 
 loadAnnouncements(onLoadSuccess, onLoadError);
 
-export { onLoadSuccess, onLoadError };
+export { onLoadSuccess, onLoadError};
