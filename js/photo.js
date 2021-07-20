@@ -3,6 +3,8 @@ const headerPreview = document.querySelector('.ad-form-header__preview')
   .children[0];
 const housingPreview = document.querySelector('.ad-form__photo');
 const DEFAULT_AVATAR = 'img/muffin-grey.svg';
+const PHOTO_SIZE = 70;
+
 
 function loadPreview(file, preview) {
   const fileName = file.name.toLowerCase();
@@ -27,8 +29,8 @@ function readPhoto(e) {
   let preview;
   if (housingPreview.children.length === 0) {
     preview = document.createElement('img');
-    preview.setAttribute('width', 70);
-    preview.setAttribute('height', 70);
+    preview.setAttribute('width', PHOTO_SIZE);
+    preview.setAttribute('height', PHOTO_SIZE);
     housingPreview.appendChild(preview);
   } else {
     preview = housingPreview.children[0];
