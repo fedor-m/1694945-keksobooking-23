@@ -1,0 +1,3 @@
+.ad-form--validated input:required:invalid {
+  border-color: red;
+}
