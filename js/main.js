@@ -2,7 +2,7 @@ import { loadAnnouncements } from './server.js';
 import { renderMarkers } from './map.js';
 import { filtersForm, getFiltersData, disableFilters } from './filters.js';
 import { onUploadFinal, disableFormElements } from './form.js';
-import { debounce } from './utils/debounce.js';
+import { debounce } from './debounce.js';
 
 const DELAY = 500;
 
