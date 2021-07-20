@@ -41,18 +41,18 @@ function generateCardTemplate(cardData) {
   description.textContent = cardData.offer.description;
   features.innerHTML = '';
   if (dataFeatures) {
-    features.innerHTML = dataFeatures
-      .map(
-        (feature) =>
-          `<li class='popup__feature popup__feature--${feature}'></li>`,
-      )
-      .join('');
+    dataFeatures.forEach((feature)=>{
+      const li=document.createElement('li');
+      li.classList.add('popup__feature');
+      li.classList.add(`popup__feature--${feature}`);
+      features.appendChild(li);
+    });
   }
   photos.innerHTML = '';
   if (dataPhotos) {
     dataPhotos.forEach((photo) => {
       const image = createPhoto(photo);
-      cardTemplate.querySelector('.popup__photos').appendChild(image);
+      photos.appendChild(image);
     });
   }
   return cardTemplate;
