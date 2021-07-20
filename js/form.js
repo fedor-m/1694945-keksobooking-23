@@ -95,14 +95,12 @@ checkIn.addEventListener('change', onSetTime);
 checkOut.addEventListener('change', onSetTime);
 
 function checkRequiredInputs() {
-  required.forEach((input) => {
-    !input.checkValidity()
-      ? (input.style.borderColor = 'red')
-      : input.removeAttribute('style');
-  });
+  adForm.classList.add('ad-form--validated');
 }
+
 function resetForm() {
   adForm.reset();
+  adForm.classList.remove('ad-form--validated');
   resetAvatar();
   resetPhoto();
   initializeCapacity();
