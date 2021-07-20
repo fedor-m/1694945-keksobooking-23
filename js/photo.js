@@ -18,13 +18,13 @@ function loadPreview(file, preview) {
   }
 }
 
-function readAvatar(e) {
+function onReadAvatar(e) {
   const file = e.target.files[0];
   const preview = headerPreview;
   loadPreview(file, preview);
 }
 
-function readPhoto(e) {
+function onReadPhoto(e) {
   const file = e.target.files[0];
   let preview;
   if (housingPreview.children.length === 0) {
@@ -49,4 +49,4 @@ function resetPhoto() {
   }
 }
 
-export { readAvatar, readPhoto, resetAvatar, resetPhoto };
+export { onReadAvatar, onReadPhoto, resetAvatar, resetPhoto };
