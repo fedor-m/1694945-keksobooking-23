@@ -1,5 +1,4 @@
-import { loadAnnouncements } from './server.js';
-import { onLoadSuccess, onLoadError } from './main.js';
+import { restoreMarkers } from './map.js';
 
 const MIN_PRICE = 10000;
 const MAX_PRICE = 50000;
@@ -36,6 +35,13 @@ const guestsValues = {
   1: (value) => value === 1,
   2: (value) => value === 2,
 };
+
+let defaultMarkers=[];
+
+function getMarkers(markers)
+{
+  defaultMarkers=markers;
+}
 
 function filterByHousingType(sortItem) {
   const type = sortItem.offer.type;
@@ -90,16 +96,12 @@ function enableFilters() {
 }
 
 function resetFilters() {
-  filtersFormElements.forEach((element) => {
-    element.value = 'any';
-  });
-  housingFeatures.forEach((element) => {
-    element.checked = false;
-  });
-  loadAnnouncements(onLoadSuccess, onLoadError);
+  filtersForm.reset();
+  restoreMarkers(defaultMarkers);
 }
 
 export {
+  getMarkers,
   getFiltersData,
   filtersForm,
   disableFilters,
