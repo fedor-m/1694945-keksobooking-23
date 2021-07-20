@@ -10,7 +10,7 @@ const housingRooms = filtersForm.querySelector('#housing-rooms');
 const housingGuests = filtersForm.querySelector('#housing-guests');
 const housingFeatures = [...filtersForm.querySelectorAll('[type="checkbox"]')];
 const filtersFormElements = [...filtersForm.children];
-const HOUSING_TYPE_VALUES = {
+const housingTypeValues = {
   'any': (value) => value,
   'bungalow': (value) => value === 'bungalow',
   'hotel': (value) => value === 'hotel',
@@ -18,50 +18,50 @@ const HOUSING_TYPE_VALUES = {
   'flat': (value) => value === 'flat',
   'palace': (value) => value === 'palace',
 };
-const PRICE_VALUES = {
+const priceValues = {
   'any': (value) => value,
   'middle': (value) => value >= MIN_PRICE && value <= MAX_PRICE,
   'low': (value) => value <= MIN_PRICE,
   'high': (value) => value >= MAX_PRICE,
 };
-const ROOMS_VALUES = {
+const roomsValues = {
   'any': (value) => value,
   '1': (value) => value === 1,
   '2': (value) => value === 2,
   '3': (value) => value === 3,
 };
-const GUESTS_VALUES = {
+const guestsValues = {
   'any': (value) => value,
   '0': (value) => value === 0,
   '1': (value) => value === 1,
   '2': (value) => value === 2,
 };
 
-const filterByHousingType = (sortItem) => {
+function filterByHousingType (sortItem) {
   const type = sortItem.offer.type;
-  return HOUSING_TYPE_VALUES[housingType.value](type);
-};
+  return housingTypeValues[housingType.value](type);
+}
 
-const filterByPrice = (sortItem) => {
+function filterByPrice (sortItem) {
   const price = sortItem.offer.price;
-  return PRICE_VALUES[housingPrice.value](price);
-};
+  return priceValues[housingPrice.value](price);
+}
 
-const filterByRooms = (sortItem) => {
+function filterByRooms (sortItem) {
   const rooms = sortItem.offer.rooms;
-  return ROOMS_VALUES[housingRooms.value](rooms);
-};
+  return roomsValues[housingRooms.value](rooms);
+}
 
-const filterByGuests = (sortItem) => {
+function filterByGuests (sortItem) {
   const guests = sortItem.offer.guests;
-  return GUESTS_VALUES[housingGuests.value](guests);
-};
+  return guestsValues[housingGuests.value](guests);
+}
 
-const filterByFeatures = (sortItem) => {
+function filterByFeatures (sortItem) {
   const features = sortItem.offer.features;
   const selectedFeatures = housingFeatures.filter((input) => input.checked);
   return selectedFeatures.every((feature) => features && features.includes(feature.value));
-};
+}
 
 function getFiltersData(announcements) {
   return announcements.filter(
