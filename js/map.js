@@ -2,7 +2,6 @@ import { generateCardTemplate } from './card.js';
 import { enableFilters } from './filters.js';
 import { enableFormElements } from './form.js';
 
-const ANNOUNCEMENTS_COUNT = 10;
 const DIGITS = 5;
 const CENTER = [35.6895, 139.69171];
 const MIN_ZOOM = 10;
@@ -64,20 +63,13 @@ function createMarker(point) {
 
 function generateMarkers(announcements)
 {
-  const newAnnouncements=announcements.slice(0, ANNOUNCEMENTS_COUNT);
-  newAnnouncements.forEach((announcement) => createMarker(announcement));
-  return newAnnouncements;
+  announcements.forEach((announcement) => createMarker(announcement));
+  return announcements;
 }
 
 function renderMarkers(announcements) {
   markerGroup.clearLayers();
-  generateMarkers(announcements);
+  announcements.forEach((announcement) => createMarker(announcement));
 }
 
-function restoreMarkers(markers)
-{
-  markerGroup.clearLayers();
-  markers.forEach((marker) => createMarker(marker));
-}
-
-export { map, CENTER, mainMarker, MIN_ZOOM, generateMarkers, renderMarkers, restoreMarkers };
+export { map, CENTER, mainMarker, MIN_ZOOM, generateMarkers, renderMarkers };
