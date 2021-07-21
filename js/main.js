@@ -4,10 +4,11 @@ import { filtersForm, getFiltersData, disableFilters, getMarkers } from './filte
 import { onUploadFinal, disableFormElements } from './form.js';
 import { debounce } from './debounce.js';
 
+const ANNOUNCEMENTS_COUNT = 10;
 const DELAY = 500;
 
 function onLoadSuccess(announcements) {
-  const markers=generateMarkers(announcements);
+  const markers = generateMarkers(announcements.slice(0, ANNOUNCEMENTS_COUNT));
   const applyFilters = () => {
     const filteredAnnouncements = getFiltersData(announcements);
     renderMarkers(filteredAnnouncements);
