@@ -1,4 +1,4 @@
-import { restoreMarkers } from './map.js';
+import { renderMarkers } from './map.js';
 
 const MIN_PRICE = 10000;
 const MAX_PRICE = 50000;
@@ -10,11 +10,10 @@ const housingRooms = filtersForm.querySelector('#housing-rooms');
 const housingGuests = filtersForm.querySelector('#housing-guests');
 const housingFeatures = [...filtersForm.querySelectorAll('[type="checkbox"]')];
 const filtersFormElements = [...filtersForm.children];
-let defaultMarkers=[];
+let defaultMarkers = [];
 
-function getMarkers(markers)
-{
-  defaultMarkers=markers;
+function getMarkers(markers) {
+  defaultMarkers = markers;
 }
 
 function filterByHousingType(sortItem) {
@@ -38,13 +37,13 @@ function filterByPrice(sortItem) {
 function filterByRooms(sortItem) {
   const rooms = sortItem.offer.rooms;
   const value = housingRooms.value;
-  return value === ANY ? rooms : (rooms.toString() === value);
+  return value === ANY ? rooms : rooms.toString() === value;
 }
 
 function filterByGuests(sortItem) {
   const guests = sortItem.offer.guests;
   const value = housingGuests.value;
-  return value === ANY ? guests : (guests.toString() === value);
+  return value === ANY ? guests : guests.toString() === value;
 }
 
 function filterByFeatures(sortItem) {
@@ -56,14 +55,28 @@ function filterByFeatures(sortItem) {
 }
 
 function getFiltersData(announcements) {
-  return announcements.filter(
-    (announcement) =>
-      filterByHousingType(announcement) &&
-      filterByPrice(announcement) &&
-      filterByRooms(announcement) &&
-      filterByGuests(announcement) &&
-      filterByFeatures(announcement),
-  );
+  const filteredData = [];
+  for (let i = 0; i < announcements.length; i++) {
+    const announcement = announcements[i];
+    const filteredByType = filterByHousingType(announcement);
+    const filteredByPrice = filterByPrice(announcement);
+    const filteredByRooms = filterByRooms(announcement);
+    const filteredByGuests = filterByGuests(announcement);
+    const filteredByFeatures = filterByFeatures(announcement);
+    if (
+      filteredByType &&
+      filteredByPrice &&
+      filteredByRooms &&
+      filteredByGuests &&
+      filteredByFeatures
+    ) {
+      filteredData.push(announcement);
+    }
+    if (filteredData.length === 10) {
+      break;
+    }
+  }
+  return filteredData;
 }
 
 function disableFilters() {
@@ -81,7 +94,7 @@ function enableFilters() {
 
 function resetFilters() {
   filtersForm.reset();
-  restoreMarkers(defaultMarkers);
+  renderMarkers(defaultMarkers);
 }
 
 export {
