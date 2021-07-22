@@ -36,7 +36,7 @@ function generateCardTemplate(cardData) {
   address.textContent = cardData.offer.address;
   price.textContent = `${cardData.offer.price} ₽ за ночь`;
   type.textContent = typeToName[cardData.offer.type];
-  capacity.textContent = ` ${cardData.offer.rooms} комната(ы) для размещения ${cardData.offer.guests} гостя(ей)`;
+  capacity.textContent = `Число комнат — ${cardData.offer.rooms}, рекомендуемое число гостей — ${cardData.offer.guests}`;
   time.textContent = `Заезд после ${cardData.offer.checkin}, выезд до ${cardData.offer.checkout}`;
   description.textContent = cardData.offer.description;
   features.innerHTML = '';
