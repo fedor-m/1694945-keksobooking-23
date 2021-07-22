@@ -1,20 +1,21 @@
 import { loadAnnouncements } from './server.js';
-import { generateMarkers, renderMarkers } from './map.js';
+import { renderMarkers } from './map.js';
 import { filtersForm, getFiltersData, disableFilters, getMarkers } from './filters.js';
 import { onUploadFinal, disableFormElements } from './form.js';
 import { debounce } from './debounce.js';
 
-const ANNOUNCEMENTS_COUNT = 10;
+
 const DELAY = 500;
 
 function onLoadSuccess(announcements) {
-  const markers = generateMarkers(announcements.slice(0, ANNOUNCEMENTS_COUNT));
+  const markers = getFiltersData(announcements);
+  getMarkers(markers);
+  renderMarkers(markers);
   const applyFilters = () => {
     const filteredAnnouncements = getFiltersData(announcements);
     renderMarkers(filteredAnnouncements);
   };
   filtersForm.addEventListener('change', debounce(applyFilters, DELAY));
-  getMarkers(markers);
 }
 
 function onLoadError() {
