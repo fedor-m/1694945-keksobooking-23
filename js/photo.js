@@ -5,7 +5,6 @@ const housingPreview = document.querySelector('.ad-form__photo');
 const DEFAULT_AVATAR = 'img/muffin-grey.svg';
 const PHOTO_SIZE = 70;
 
-
 function loadPreview(file, preview) {
   const fileName = file.name.toLowerCase();
   const matches = fileTypes.some((it) => fileName.endsWith(it));

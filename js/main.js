@@ -1,9 +1,13 @@
 import { loadAnnouncements } from './server.js';
 import { renderMarkers } from './map.js';
-import { filtersForm, getFiltersData, disableFilters, getMarkers } from './filters.js';
+import {
+  filtersForm,
+  getFiltersData,
+  disableFilters,
+  getMarkers
+} from './filters.js';
 import { onUploadFinal, disableFormElements } from './form.js';
 import { debounce } from './debounce.js';
-
 
 const DELAY = 500;
 
@@ -41,4 +45,4 @@ function onLoadError() {
 
 loadAnnouncements(onLoadSuccess, onLoadError);
 
-export { onLoadSuccess, onLoadError};
+export { onLoadSuccess, onLoadError };

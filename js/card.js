@@ -41,8 +41,8 @@ function generateCardTemplate(cardData) {
   description.textContent = cardData.offer.description;
   features.innerHTML = '';
   if (dataFeatures) {
-    dataFeatures.forEach((feature)=>{
-      const li=document.createElement('li');
+    dataFeatures.forEach((feature) => {
+      const li = document.createElement('li');
       li.classList.add('popup__feature', `popup__feature--${feature}`);
       features.appendChild(li);
     });
