@@ -61,15 +61,9 @@ function createMarker(point) {
   marker.addTo(markerGroup);
 }
 
-function generateMarkers(announcements)
-{
-  announcements.forEach((announcement) => createMarker(announcement));
-  return announcements;
-}
-
 function renderMarkers(announcements) {
   markerGroup.clearLayers();
   announcements.forEach((announcement) => createMarker(announcement));
 }
 
-export { map, CENTER, mainMarker, MIN_ZOOM, generateMarkers, renderMarkers };
+export { map, CENTER, mainMarker, MIN_ZOOM, renderMarkers };
