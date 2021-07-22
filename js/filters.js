@@ -1,5 +1,6 @@
 import { renderMarkers } from './map.js';
 
+const MAX_ANNOUNCEMENTS = 10;
 const MIN_PRICE = 10000;
 const MAX_PRICE = 50000;
 const ANY = 'any';
@@ -72,7 +73,7 @@ function getFiltersData(announcements) {
     ) {
       filteredData.push(announcement);
     }
-    if (filteredData.length === 10) {
+    if (filteredData.length === MAX_ANNOUNCEMENTS) {
       break;
     }
   }
